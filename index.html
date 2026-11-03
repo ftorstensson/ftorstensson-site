@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fred Torstensson · Product Design &amp; Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inder&family=Grenze:wght@700&display=swap">
+<style>
+/* Layout is measured from Fred's mockups (laptop 1536×864, phone 1080×1920).
+   Everything scales with one unit --u so the sizes and spacing keep their exact ratios,
+   and is placed from the vertical centre of the screen, centred horizontally. */
+*{box-sizing:border-box}
+html{overflow:hidden;overscroll-behavior:none}
+html,body{margin:0;overscroll-behavior:none;background:#23221F;color:#E7E7D6;font-family:Inder,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:root{--W:1536;--H:864;--u:min(calc(100vw / 1536), calc(100vh / 864))}
+@supports (height:100svh){:root{--u:min(calc(100vw / 1536), calc(100svh / 864))}}
+body{overflow:hidden;touch-action:none}
+#pages{will-change:transform}
+section{height:100vh;height:100svh;position:relative;overflow:hidden}
+.at{position:absolute;left:50%;transform:translateX(-50%)}
+.y{top:calc(50% + (var(--y) - var(--H) / 2) * var(--u))}
+#home{background:var(--bg,#23221F);transition:background 1.1s ease-out}
+/* graphics: each SVG's viewBox is its ink box, so its size is the drawn size */
+#hsvg{--y:260;width:calc(697 * var(--u));overflow:visible}
+#hp{fill:none;stroke:#E7E7D6;stroke-linecap:round;stroke-linejoin:round}
+#F{--y:181;height:calc(355 * var(--u));overflow:visible}
+.fp{transform-box:fill-box;transform-origin:50% 100%;opacity:0;transition:fill 1.1s ease-out}
+.in .fp{animation:drop .8s cubic-bezier(.23,1,.32,1) both}
+@keyframes drop{from{opacity:0;transform:translateY(-80px) scaleY(.6)}to{opacity:1;transform:none}}
+#bot .head{--y:156;height:calc(371 * var(--u));width:calc(304 * var(--u));display:block}
+#bot .hw{position:absolute;inset:0;opacity:0}
+#bot.in .hw{animation:rise .9s cubic-bezier(.23,1,.32,1) both}
+#bot.in .head{animation:bob 3.4s ease-in-out .9s infinite}
+@keyframes rise{from{opacity:0;transform:translateY(calc(24 * var(--u)))}to{opacity:1;transform:none}}
+@keyframes bob{50%{transform:translateX(-50%) translateY(calc(-8 * var(--u)))}}
+#bot .head{transform:translateX(-50%)}
+#plate{fill:#E7E7D6;stroke:#E7E7D6;stroke-width:4}
+/* text: part of each screen, so it scrolls away with it */
+.ln{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;line-height:1;top:calc(50% + (var(--y) - var(--H) / 2) * var(--u))}
+.n{font-size:calc(27 * var(--u))}
+.t{font-family:Grenze,serif;font-weight:700;font-size:calc(27.75 * var(--u))}
+.d2{font-size:calc(24 * var(--u))}
+.d1{--y:602}.d2{--y:634}
+.m1,.m2,.m3,.m4{display:none}
+.tx a:hover{border-bottom:1px solid rgba(231,231,214,.5)}
+/* scroll hint: a small line that nudges down, shown once the screen's text is in */
+.hint{position:absolute;left:50%;bottom:calc(38 * var(--u));transform:translateX(-50%);width:calc(44 * var(--u));height:calc(56 * var(--u));min-width:28px;min-height:36px;padding:0;border:0;background:none;cursor:pointer;opacity:0;transition:opacity .8s ease-out;color:#E7E7D6}
+.tx.go ~ .hint{opacity:.55;transition-delay:1.4s}
+.hint:hover{opacity:.9!important}
+.hint i{position:absolute;left:50%;top:15%;width:1.5px;height:45%;background:currentColor;transform:translateX(-50%);animation:nudge 1.8s ease-in-out infinite}
+.hint i::after{content:"";position:absolute;left:50%;bottom:-1px;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateX(-50%) rotate(45deg);transform-origin:center}
+@keyframes nudge{0%,100%{transform:translate(-50%,0);opacity:.5}50%{transform:translate(-50%,6px);opacity:1}}
+/* phone layout */
+@media (max-aspect-ratio:4/5){
+ :root{--W:1080;--H:1920;--u:min(calc(100vw / 1080), calc(100vh / 1920))}
+ @supports (height:100svh){:root{--u:min(calc(100vw / 1080), calc(100svh / 1920))}}
+ #hsvg{--y:631;width:calc(1000 * var(--u))}
+ #F{--y:392;height:calc(615 * var(--u))}
+ #bot .head{--y:396;height:calc(601 * var(--u));width:calc(491 * var(--u))}
+ .d1,.d2{display:none}.m1,.m2,.m3,.m4{display:block}
+ .n,.m3,.m4{font-size:calc(40 * var(--u))}
+ .m2{font-size:calc(71.8 * var(--u))}
+ .m1{--y:1227}.m2{--y:1279}.m3{--y:1385}.m4{--y:1452}
+}
+/* every letter has its place; they fade up left to right once the screen has settled */
+.c{opacity:0}
+.tx.go .c{opacity:1;transition:opacity .55s ease-out var(--d)}
+.tx.now .c{opacity:1;transition:none}
+@media (prefers-reduced-motion:reduce){.hint i{animation:none}.tx.go .c{transition:none}.in .fp{animation:none;opacity:1}#bot .hw,#bot.in .hw,#bot.in .head{animation:none;opacity:1}}
+</style></head><body>
+<main id="pages"><section id="hello"><svg id="hsvg" class="at y" viewBox="174.8 235.3 1561.5 534.8" aria-label="hello"><path id="hp" d="M390.9 246.3 C386 339.89 475.78 357.32 476.79 311.43 C477.41 282.86 434.7 283.99 408.3 325.15 C395.39 345.28 386.47 376.19 401.62 435.6 C411.08 472.68 396.89 511.25 359.79 513.29 C293.2 516.94 328.79 393.27 320.07 358.36 C311.62 324.58 264.68 320.93 236 344.52 C160.93 406.26 186.29 573.56 208.91 658.1 C219.17 696.44 242.11 758.39 290.23 759.07 C383.1 760.38 315.22 650.79 370.53 624.68 C441.11 603.42 396.07 729.24 487.96 718.94 C565.29 710.27 533.67 552.07 516.8 490.45 C497.25 419.02 524.59 376.32 545.4 357.47 C585.02 321.59 642.24 310.75 690.69 322.03 C725.67 338.87 743.97 381.6 712.75 410.68 C682.9 438.48 624.95 430.84 629.36 455.17 C634.06 481.09 662.8 464.76 706.8 462.1 C736.75 460.29 756.48 536.52 712.14 553.12 C694.11 559.87 650.1 554.64 654.02 579.16 C658.22 605.4 699.35 582.07 725.83 589.5 C753.09 597.15 763.1 639.84 749.24 672.91 C732.32 713.27 675.87 742.47 670.13 707.71 C661.12 653.19 780.64 737.02 816.2 664.3 C856.09 582.76 802.54 452.95 796.46 389.96 C791.54 338.84 810.91 307.02 874.4 289.45 C1025.73 262.87 900.37 516.89 926.33 569.75 C942.96 603.6 973.93 596.98 1008.75 602.88 C1036.21 607.53 1064.47 621.88 1059.21 653 C1055.05 677.61 1039.5 701.71 1039.5 701.71 C1039.5 701.71 1128.91 693.98 1128.77 576.42 C1138.23 498.7 1055.97 291.65 1190.72 295.92 C1219.35 296.83 1241.8 315.49 1252.47 327.74 C1313.23 397.53 1207.84 512.96 1213.65 588.41 C1217.8 642.26 1331.37 572.41 1362.98 597.96 C1381.18 612.68 1369.02 692.19 1325.63 687.52 C1288.78 683.55 1322.12 553.19 1347.78 482.54 C1381.25 390.39 1464.23 306.83 1592.68 330.33 C1667.29 343.98 1731.76 395.79 1724.78 509.26 C1717.96 620.04 1594.8 709.29 1485.4 644.02 C1349.19 562.75 1457.66 368.39 1564.39 409.04 C1670.88 449.6 1597.47 589.42 1547.14 560.37 C1512.26 540.24 1571.98 446.31 1623.38 573.1" stroke-width="22"/></svg><div class="tx " aria-label="Fred Torstensson, Product Design and Growth, fredrik.t.torstensson@gmail.com, 0401 424 461">
+ <div class="ln d1"><span class="n">Fred Torstensson</span> <span class="t">Product Design &amp; Growth</span></div>
+ <div class="ln d2"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a> | <a href="tel:+61401424461">0401 424 461</a></div>
+ <div class="ln m1 n">Fred Torstensson</div>
+ <div class="ln m2 t">Product Design &amp; Growth</div>
+ <div class="ln m3"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a></div>
+ <div class="ln m4"><a href="tel:+61401424461">0401 424 461</a></div>
+</div><button class="hint" aria-label="Next"><i></i></button></section>
+<section id="home"><svg id="F" class="at y" viewBox="272 201 473 577" aria-label="F"></svg><div class="tx " aria-label="Fred Torstensson, Product Design and Growth, fredrik.t.torstensson@gmail.com, 0401 424 461">
+ <div class="ln d1"><span class="n">Fred Torstensson</span> <span class="t">Product Design &amp; Growth</span></div>
+ <div class="ln d2"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a> | <a href="tel:+61401424461">0401 424 461</a></div>
+ <div class="ln m1 n">Fred Torstensson</div>
+ <div class="ln m2 t">Product Design &amp; Growth</div>
+ <div class="ln m3"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a></div>
+ <div class="ln m4"><a href="tel:+61401424461">0401 424 461</a></div>
+</div><button class="hint" aria-label="Next"><i></i></button></section>
+<section id="bot"><div class="hw"><svg class="head" role="img" aria-label="FredBot" viewBox="44 -10 881 1076" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path d="M466.5 1063.2 L436.0 1061.2 L413.0 1056.2 L302.5 1019.8 L273.5 1011.2 L241.5 998.8 L219.0 987.8 L196.5 973.8 L180.0 960.8 L159.8 940.0 L147.2 922.5 L137.8 904.5 L128.2 877.0 L123.8 856.0 L121.2 832.5 L121.2 801.0 L123.8 761.0 L109.0 760.2 L95.5 757.2 L82.5 751.2 L70.5 742.8 L61.8 733.5 L56.2 725.5 L49.2 710.0 L46.2 695.0 L46.2 610.0 L49.8 591.0 L56.8 574.5 L63.8 564.5 L72.5 555.8 L80.0 550.2 L89.5 545.2 L101.0 541.2 L108.5 539.8 L129.8 539.0 L130.8 519.5 L107.5 513.2 L91.0 505.8 L85.5 501.8 L79.8 495.5 L77.2 490.5 L76.8 485.0 L78.2 480.5 L92.5 467.8 L119.5 449.8 L149.8 432.5 L146.8 374.5 L146.2 339.5 L147.2 316.5 L149.8 294.5 L153.8 275.5 L159.2 259.5 L164.2 249.5 L175.2 234.5 L187.5 223.2 L208.0 210.2 L230.5 198.8 L266.5 182.8 L317.5 162.8 L441.0 119.2 L441.2 55.5 L437.0 52.8 L428.8 43.5 L424.8 33.0 L424.2 22.0 L426.2 14.0 L431.2 5.5 L440.5 -2.8 L446.5 -5.8 L453.0 -7.2 L462.5 -7.2 L469.0 -5.8 L478.5 -0.2 L486.8 9.0 L489.2 14.0 L491.2 22.0 L491.2 30.5 L490.2 35.5 L486.8 43.5 L478.5 52.8 L474.2 55.5 L474.5 119.8 L606.5 164.8 L645.0 179.2 L688.0 197.2 L711.5 208.8 L735.0 223.2 L748.8 236.0 L756.2 246.5 L763.2 260.0 L768.2 274.0 L772.8 292.5 L776.2 315.5 L778.8 360.0 L777.8 434.0 L807.5 452.2 L826.5 466.8 L843.2 483.5 L848.2 490.0 L849.8 494.5 L849.2 497.5 L845.8 503.0 L835.5 512.2 L828.5 515.8 L819.0 518.8 L793.5 523.2 L793.5 539.2 L813.0 540.2 L830.0 544.2 L843.5 550.8 L857.8 562.0 L859.2 371.0 L850.0 365.2 L843.2 358.5 L839.2 353.0 L834.8 342.5 L833.2 335.0 L833.2 325.5 L834.8 318.0 L839.2 307.5 L849.0 296.2 L855.0 291.8 L861.0 288.8 L873.0 285.8 L883.0 285.8 L892.0 287.8 L900.5 291.8 L905.5 295.2 L914.8 305.0 L920.8 317.5 L922.8 329.5 L921.2 341.5 L915.8 354.0 L905.5 365.2 L895.8 371.5 L895.8 695.5 L894.2 700.0 L889.0 705.2 L881.5 707.8 L873.8 708.0 L869.2 720.5 L863.2 730.5 L857.2 738.0 L846.0 748.2 L828.5 756.8 L814.0 759.8 L801.5 760.2 L800.2 761.0 L801.2 777.5 L801.8 830.5 L799.8 856.0 L794.8 879.5 L789.8 894.5 L782.8 910.0 L774.8 924.0 L759.8 944.0 L737.0 966.2 L722.5 977.2 L710.5 984.8 L682.5 998.8 L659.0 1008.2 L632.0 1016.2 L514.5 1056.2 L488.0 1061.8 L466.5 1063.2Z" id="plate"/>
+<g transform="matrix(1,0,0,1,-7866.19,-4307.09)">
+        <g id="Artboard1" transform="matrix(0.959093,0,0,0.954436,6684.51,4466.96)">
+            <rect x="1232.08" y="-167.511" width="958.061" height="1111.1" style="fill:none;"/>
+            <g transform="matrix(1.47289,0,0,1.45277,1761.18,495.594)">
+                <path d="M188.842,66.338C189.41,81.147 190.124,95.947 191.034,110.752C193.5,151.504 191.53,187.73 163.813,220C137.991,247.7 101.311,257.712 66.496,269.441C58.315,272.198 50.173,275.04 42.063,278C9.748,289.751 -21.315,299.273 -56,293L-59.871,292.328C-80.751,288.358 -101.049,280.213 -120.887,272.749C-129.02,269.697 -137.211,266.852 -145.438,264.063C-197.287,246.352 -197.287,246.352 -217,230L-219.641,227.82C-240.533,209.812 -252.662,183.346 -255,156C-255.155,151.809 -255.163,147.623 -255.152,143.43L-255.146,139.722C-255.069,126.18 -254.384,112.677 -253.669,99.155C-253.339,92.857 -253.033,86.558 -252.73,80.258L-252.629,78.155C-252.366,72.636 -252.147,67.117 -251.965,61.596C-252.017,65.278 -252.057,68.959 -252.078,72.64L-252.09,75.328C-252.182,86.872 -245.995,97.589 -238.027,106.008L-236,108C-223.578,120.404 -179.959,129.318 -162.553,133C-150.807,111.358 -154.145,94.228 -130.691,86.769C-130.691,86.769 -106.631,81.759 -95.403,81.722C-95.403,81.722 -63.38,87.76 -32.462,87.741C-6.988,87.726 34.865,84.689 35.798,84.688C35.798,84.688 55.316,83.407 70.184,88C91.07,95.203 87.259,111.442 97.487,130.91L98.553,133C121.319,128.37 171.193,113.573 183.962,94.399L185.188,92.5C187.376,89.289 188.895,86.507 189.17,82.569L189.126,79.792L189.082,76.563L189,73C188.951,70.779 188.898,68.559 188.842,66.338Z" style="fill:#23221F;fill-opacity:0.32;"/>
+            </g>
+            <g transform="matrix(1.44571,0,0,1.45277,-10445.8,-2466.17)">
+                <path d="M8718.57,1846.62C8718.62,1860.47 8718.66,1877.03 8718.69,1893.15C8718.72,1905.87 8718.74,1918.31 8718.76,1928.95C8718.78,1941.05 8718.81,1953.16 8718.85,1965.26C8718.89,1975.81 8718.92,1986.36 8718.93,1996.91C8718.93,2002.5 8718.94,2008.09 8718.97,2013.67C8719,2018.93 8719.01,2024.19 8719,2029.45C8719.01,2031.38 8719.01,2033.31 8719.03,2035.24C8719.05,2037.87 8719.04,2040.51 8719.03,2043.15L8719.07,2045.45C8718.98,2053.82 8715.03,2059.7 8709.55,2065.74L8707.94,2067.16C8706.22,2069.12 8706.12,2070.2 8705.96,2072.77L8705.78,2075.15L8705.61,2077.68C8704.29,2092.75 8699.69,2104.51 8688.58,2115.14C8676.37,2124.78 8664.52,2125.93 8649.55,2125.74L8649.77,2129.62C8650.41,2142.14 8650.68,2154.65 8650.73,2167.18C8650.74,2168.87 8650.75,2170.55 8650.76,2172.23C8650.87,2186.84 8650.13,2201.08 8645.93,2215.18L8645.14,2217.85C8635.41,2249.53 8612.9,2274.41 8583.99,2290.13C8567.72,2298.66 8550.04,2305.91 8532.25,2310.62C8532.25,2310.62 8454.03,2336.88 8450.63,2338.05C8427.6,2346.14 8396.6,2345.64 8373.51,2338.07C8359.13,2333.14 8290.94,2311.05 8290.94,2311.05C8284.2,2309.55 8277.77,2307.13 8271.3,2304.74L8269.31,2304.01C8232.91,2290.54 8199.62,2270.53 8182.59,2234.13C8174.31,2215.08 8170.35,2195.45 8170.36,2174.74L8170.36,2170.99C8170.45,2155.88 8171.47,2140.81 8172.55,2125.74L8169.29,2125.8L8164.98,2125.84L8162.84,2125.88C8150.4,2125.97 8139.47,2120.99 8130.3,2112.71C8121.78,2103.81 8116.32,2092.19 8116.28,2079.8L8116.26,2077.82C8116.25,2075.68 8116.25,2073.53 8116.25,2071.39L8116.24,2066.86C8116.23,2063.7 8116.23,2060.55 8116.24,2057.39C8116.24,2053.38 8116.23,2049.37 8116.2,2045.35C8116.19,2042.24 8116.19,2039.12 8116.19,2036.01C8116.19,2034.53 8116.18,2033.05 8116.17,2031.58C8116.07,2015.08 8119.15,2002.01 8130.51,1989.62C8136.82,1983.81 8144.23,1979.78 8152.55,1977.74L8154.7,1977.17C8158.92,1976.53 8163.1,1976.64 8167.36,1976.68L8170.04,1976.69C8172.21,1976.7 8174.38,1976.72 8176.55,1976.74L8176.52,1974.82C8176.2,1952.83 8179.86,1929.44 8196.62,1917.28C8211.84,1906.25 8224.66,1903.71 8226.7,1903.16C8241.22,1899.15 8255.77,1895.89 8270.59,1893.26L8273.55,1892.74C8317.21,1884.99 8361.49,1883.57 8405.72,1883.56L8408.18,1883.55C8437.3,1883.53 8466.38,1883.74 8495.4,1886.45L8498.55,1886.74C8525.58,1889.16 8577.37,1895.46 8595.72,1900.12C8617.99,1905.77 8628.56,1917.72 8629.85,1918.57C8637.88,1924.08 8642.06,1937.27 8643.8,1946.43C8645.18,1956.45 8644.72,1966.65 8644.55,1976.74L8648.47,1976.6C8665.16,1976.18 8679.2,1978.67 8691.8,1990.49C8695.55,1994.74 8695.55,1994.74 8701.55,2004.74L8702.52,1846.39C8691.68,1842.86 8683.84,1832.67 8683.84,1820.65C8683.84,1805.72 8695.97,1793.59 8710.9,1793.59C8725.84,1793.59 8737.97,1805.72 8737.97,1820.65C8737.97,1832.93 8729.78,1843.31 8718.57,1846.62ZM8526.24,1961.58C8488.56,1961.58 8457.96,1992.17 8457.96,2029.85C8457.96,2067.53 8488.56,2098.13 8526.24,2098.13C8563.92,2098.13 8594.51,2067.53 8594.51,2029.85C8594.51,1992.17 8563.92,1961.58 8526.24,1961.58ZM8298.31,1961.58C8260.63,1961.58 8230.04,1992.17 8230.04,2029.85C8230.04,2067.53 8260.63,2098.13 8298.31,2098.13C8335.99,2098.13 8366.58,2067.53 8366.58,2029.85C8366.58,1992.17 8335.99,1961.58 8298.31,1961.58ZM8166.49,1993.55C8156.89,1993.3 8150.53,1994.36 8143.25,2001.02C8134.45,2009.95 8132.24,2018.84 8132.11,2031.22C8132.11,2033.21 8132.12,2035.2 8132.11,2037.19C8132.1,2040.02 8132.09,2042.85 8132.1,2045.69C8132.11,2049.33 8132.11,2052.97 8132.09,2056.62C8132.06,2059.48 8132.05,2062.35 8132.05,2065.21C8132.05,2066.59 8132.06,2067.96 8132.06,2069.34C8132.03,2071.88 8132.03,2074.43 8132.05,2076.98C8132.42,2087 8136.28,2095.79 8143.55,2102.74C8152.87,2109.84 8162.42,2109.41 8173.55,2108.74C8174.29,2099.51 8174.77,2090.29 8175.03,2081.03L8175.15,2076.68C8175.24,2073.58 8175.33,2070.47 8175.42,2067.37C8175.5,2064.22 8175.59,2061.06 8175.68,2057.9C8176.32,2036.51 8176.7,2015.14 8176.55,1993.74L8171.87,1993.65C8170.08,1993.62 8168.28,1993.59 8166.49,1993.55ZM8213.92,2033.74L8192.55,2033.74C8191.78,2044.67 8191.34,2055.57 8191.11,2066.52C8191.05,2069.5 8190.99,2072.48 8190.92,2075.46C8190.79,2081.42 8190.67,2087.38 8190.59,2093.34C8190.4,2098.86 8190.19,2104.38 8189.92,2109.9L8189.82,2112C8189.52,2118.3 8189.21,2124.6 8188.88,2130.9C8188.17,2144.42 8187.48,2157.92 8187.4,2171.46L8187.4,2175.17C8187.39,2179.37 8187.4,2183.55 8187.55,2187.74C8189.89,2215.09 8202.02,2241.55 8222.91,2259.56L8225.55,2261.74C8245.26,2278.09 8245.26,2278.09 8297.11,2295.8C8305.34,2298.59 8313.53,2301.44 8321.67,2304.49C8341.5,2311.95 8361.8,2320.1 8382.68,2324.07L8386.55,2324.74C8421.24,2331.01 8452.3,2321.49 8484.61,2309.74C8492.73,2306.78 8500.87,2303.94 8509.05,2301.18C8543.86,2289.45 8580.54,2279.44 8606.36,2251.74C8634.08,2219.47 8636.05,2183.24 8633.59,2142.49C8632.68,2127.69 8631.96,2112.89 8631.39,2098.08C8631.33,2095.49 8631.26,2092.91 8631.18,2090.32L8631.05,2085.7C8630.93,2081.63 8630.82,2077.57 8630.7,2073.5C8630.58,2069.3 8630.45,2065.1 8630.33,2060.89C8630.08,2051.84 8629.81,2042.79 8629.55,2033.74L8611.17,2033.74C8609.13,2078.7 8571.99,2114.58 8526.53,2114.58C8480.35,2114.58 8442.76,2077.56 8441.82,2031.6C8420.95,2027.69 8403.9,2026.83 8383.27,2031.35C8382.47,2077.43 8344.82,2114.58 8298.56,2114.58C8253.1,2114.58 8215.95,2078.7 8213.92,2033.74ZM8610.53,2018.74L8628.55,2018.74C8628.64,2002.98 8628.7,1987.21 8628.34,1971.44L8628.24,1967.3C8628.01,1953.93 8626.6,1942.76 8618.55,1931.74C8603.82,1916.6 8603.82,1916.6 8527.25,1906.5L8524.8,1906.18C8520.04,1905.54 8515.28,1904.93 8510.5,1904.39L8504.55,1903.74C8476.42,1900.47 8448.45,1900.34 8420.16,1900.46C8415.1,1900.48 8410.05,1900.5 8404.99,1900.5C8398.77,1900.51 8392.55,1900.52 8386.33,1900.53L8382.77,1900.54C8364.95,1900.57 8347.18,1900.82 8329.42,1902.36L8327.14,1902.57C8324.5,1902.81 8321.85,1903.05 8319.21,1903.3L8316.49,1903.55C8294.12,1905.65 8271.91,1908.38 8249.95,1913.21L8247.55,1913.74C8233.41,1916.85 8216.29,1919.79 8204.74,1929.12C8193.84,1940.24 8193.08,1954.35 8192.9,1969.02C8192.88,1970.89 8192.85,1972.75 8192.82,1974.62C8192.54,1989.33 8192.46,2004.03 8192.55,2018.74L8214.55,2018.74L8214.56,2018.72C8220.01,1977.21 8255.57,1945.13 8298.56,1945.13C8340.76,1945.13 8375.8,1976.05 8382.23,2016.46L8404.55,2012.74C8404.61,2003.79 8404.67,1994.83 8404.76,1985.87C8404.81,1981.31 8404.85,1976.74 8404.88,1972.18C8404.91,1967.71 8404.94,1963.23 8404.99,1958.76C8405.01,1957.06 8405.02,1955.36 8405.04,1953.66C8405.05,1951.21 8405.06,1948.76 8405.09,1946.31L8405.12,1944.06C8405.11,1941.54 8405.24,1939.26 8405.55,1936.74C8406.75,1934.75 8406.75,1934.75 8408.55,1933.74C8411.57,1933.36 8413.6,1933.13 8416.21,1934.81C8417.85,1937.18 8417.93,1939.1 8417.99,1941.94L8417.98,1944.06C8418.02,1946.42 8418.04,1948.78 8418.05,1951.13C8418.06,1952.82 8418.07,1954.51 8418.09,1956.19C8418.14,1960.61 8418.18,1965.02 8418.2,1969.44C8418.23,1974.02 8418.27,1978.59 8418.32,1983.17C8418.4,1992.07 8418.48,2000.97 8418.53,2009.88L8418.55,2012.74C8420.24,2013.09 8421.93,2013.43 8423.62,2013.77L8425.71,2014.2C8431.32,2015.35 8436.85,2016.24 8442.55,2016.74C8442.77,2015.97 8442.99,2015.2 8443.21,2014.43C8450.47,1975.02 8485.04,1945.13 8526.53,1945.13C8569.52,1945.13 8605.08,1977.22 8610.53,2018.74ZM8645.55,1993.74C8645.29,2021.17 8645.62,2048.54 8646.48,2075.95L8646.55,2078.24C8646.87,2088.41 8647.2,2098.57 8647.55,2108.74C8649.5,2108.76 8651.45,2108.78 8653.4,2108.79L8655.8,2108.8L8658.16,2108.83L8660.44,2108.84C8667.83,2108.89 8674,2105.8 8679.55,2101.02C8687.83,2092.33 8689.15,2082.28 8689.01,2070.66C8688.99,2069.26 8688.98,2067.86 8688.97,2066.46C8688.97,2063.51 8688.96,2060.57 8688.93,2057.62C8688.89,2053.82 8688.86,2050.01 8688.85,2046.21C8688.84,2042.5 8688.82,2038.79 8688.8,2035.08L8688.79,2032.96L8688.77,2028.82L8688.73,2024.99C8688.65,2015.9 8685.75,2008.15 8679.47,2001.42C8672.75,1995.54 8666.6,1993.43 8657.84,1993.52L8655.12,1993.58C8651.93,1993.62 8648.74,1993.67 8645.55,1993.74Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.44571,0,0,1.45277,-1326.86,-2701.85)">
+                <path d="M2088.79,2280.67L2087.62,2280.29C2078.62,2277.34 2071.25,2273.02 2065.93,2265.03C2065.26,2261.32 2065.41,2259.81 2067.49,2256.66C2070.98,2254.33 2072.79,2254.34 2076.93,2255.03C2078.97,2256.37 2080.81,2257.89 2082.71,2259.43C2090.19,2264.83 2098.93,2266.14 2107.93,2265.03C2115.64,2263.42 2121.63,2260.83 2128,2256.24C2129.93,2255.03 2129.93,2255.03 2133.24,2254.41C2136.72,2255.21 2137.94,2256.05 2139.93,2259.03C2140.65,2263.35 2140.34,2265.35 2138.05,2269.09C2132.02,2275.46 2116.3,2280.85 2116.06,2280.91C2109.38,2282.73 2104.62,2282.94 2102.17,2283.01C2102.17,2283.01 2095.27,2282.75 2088.79,2280.67Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.50556,0,0,1.51291,-1103.29,-124.897)">
+                <path d="M1762.41,366.726C1781.22,366.726 1796.49,381.996 1796.49,400.805C1796.49,419.613 1781.22,434.884 1762.41,434.884C1743.61,434.884 1728.34,419.613 1728.34,400.805C1728.34,381.996 1743.61,366.726 1762.41,366.726ZM1771.47,383.06C1766.57,383.06 1762.59,387.035 1762.59,391.932C1762.59,396.829 1766.57,400.805 1771.47,400.805C1776.36,400.805 1780.34,396.829 1780.34,391.932C1780.34,387.035 1776.36,383.06 1771.47,383.06Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.50556,0,0,1.51291,-770.463,-124.897)">
+                <path d="M1762.41,366.726C1781.22,366.726 1796.49,381.996 1796.49,400.805C1796.49,419.613 1781.22,434.884 1762.41,434.884C1743.61,434.884 1728.34,419.613 1728.34,400.805C1728.34,381.996 1743.61,366.726 1762.41,366.726ZM1771.47,383.06C1766.57,383.06 1762.59,387.035 1762.59,391.932C1762.59,396.829 1766.57,400.805 1771.47,400.805C1776.36,400.805 1780.34,396.829 1780.34,391.932C1780.34,387.035 1776.36,383.06 1771.47,383.06Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.55133,0.066114,-0.0657929,1.5589,-8928.96,-823.375)">
+                <path d="M6675.26,442.211C6667.69,369.326 6662.2,321.391 6686.07,295.891C6709.88,270.46 6815.34,231.723 6866.12,211.075C6924.86,228.672 7027.52,255.72 7056.16,278.032C7088.96,303.58 7083.43,378.692 7085.76,424.801C7078.98,421.077 7073.67,418.364 7065.86,416.865C7063.91,382.986 7066.79,317.418 7044.05,297.474C7012.42,269.742 6927.28,252.87 6867.79,234.167C6817.77,254.466 6727.19,283.907 6699.27,310.835C6680.68,328.77 6689.29,387.553 6693.7,426.448C6686.77,432.873 6683.07,435.797 6675.26,442.211Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.6019,0.0318996,-0.0317447,1.60972,-9297.57,-620.706)">
+                <path d="M6870.52,379.816C6907.14,378.38 6957.86,385.383 6993.6,394.34C7070.4,413.584 7116.92,441.97 7131.03,462.263C7124.16,475.528 7108.5,473.755 7089.7,479.597C7062.4,468.391 7024.63,436.875 6884.84,440.075C6744.76,443.282 6702.43,478.393 6681.65,485.047C6667.82,483.74 6637.45,477.566 6637.14,466.211C6637.01,461.279 6739.02,384.972 6870.52,379.816Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(2.00504,0,0,2.68999,-8879.59,-4093.01)">
+                <path d="M5221.28,1586.95L5221.28,1552.59L5244.84,1552.59L5244.84,1558.41L5228.22,1558.41L5228.22,1566.54L5242.56,1566.54L5242.56,1572.35L5228.22,1572.35L5228.22,1586.95L5221.28,1586.95ZM5258.29,1586.95L5258.29,1558.41L5248.09,1558.41L5248.09,1552.59L5275.4,1552.59L5275.4,1558.41L5265.23,1558.41L5265.23,1586.95L5258.29,1586.95ZM5279.83,1552.59L5286.76,1552.59L5286.76,1571.2C5286.76,1574.16 5286.85,1576.07 5287.02,1576.94C5287.32,1578.35 5288.03,1579.48 5289.14,1580.33C5290.26,1581.18 5291.79,1581.61 5293.73,1581.61C5295.69,1581.61 5297.18,1581.21 5298.18,1580.4C5299.18,1579.6 5299.78,1578.61 5299.98,1577.44C5300.19,1576.27 5300.29,1574.32 5300.29,1571.6L5300.29,1552.59L5307.23,1552.59L5307.23,1570.64C5307.23,1574.77 5307.04,1577.68 5306.66,1579.38C5306.29,1581.09 5305.6,1582.52 5304.59,1583.69C5303.58,1584.87 5302.23,1585.8 5300.55,1586.5C5298.86,1587.19 5296.65,1587.54 5293.94,1587.54C5290.65,1587.54 5288.17,1587.16 5286.47,1586.4C5284.78,1585.64 5283.44,1584.66 5282.45,1583.45C5281.47,1582.24 5280.82,1580.97 5280.51,1579.64C5280.05,1577.67 5279.83,1574.77 5279.83,1570.92L5279.83,1552.59ZM5311.05,1586.95L5322.79,1569.02L5312.15,1552.59L5320.26,1552.59L5327.15,1563.63L5333.9,1552.59L5341.94,1552.59L5331.25,1569.28L5342.99,1586.95L5334.62,1586.95L5327.01,1575.07L5319.37,1586.95L5311.05,1586.95Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.44571,0,0,1.45277,1360.56,429.947)">
+                <path d="M0,0C1.795,0.035 3.59,0.068 5.385,0.1C7.724,0.144 7.724,0.144 10.063,0.188C10.209,21.591 9.83,42.951 9.194,64.344C9.101,67.503 9.014,70.662 8.927,73.82C8.841,76.921 8.752,80.022 8.662,83.122C8.62,84.573 8.579,86.024 8.539,87.475C8.28,96.736 7.8,105.952 7.063,115.188C-4.066,115.855 -13.616,116.285 -22.938,109.188C-30.21,102.233 -34.069,93.449 -34.439,83.428C-34.459,80.879 -34.456,78.33 -34.434,75.781C-34.434,74.407 -34.435,73.033 -34.438,71.659C-34.439,68.794 -34.427,65.93 -34.404,63.066C-34.376,59.421 -34.378,55.778 -34.391,52.133C-34.398,49.3 -34.39,46.467 -34.378,43.634C-34.371,41.646 -34.375,39.658 -34.38,37.669C-34.252,25.281 -32.044,16.392 -23.238,7.465C-15.958,0.806 -9.599,-0.254 0,0Z" style="fill:#23221F;fill-opacity:0.7;fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.44571,0,0,1.45277,2053.14,430.219)">
+                <path d="M0,0C3.19,-0.075 6.38,-0.12 9.57,-0.16C10.467,-0.182 11.363,-0.203 12.286,-0.225C21.052,-0.307 27.199,1.797 33.914,7.676C40.194,14.405 43.097,22.16 43.177,31.246C43.196,33.145 43.196,33.145 43.216,35.081C43.224,36.462 43.232,37.842 43.238,39.223C43.242,39.922 43.246,40.622 43.251,41.343C43.271,45.052 43.286,48.76 43.295,52.469C43.306,56.272 43.341,60.075 43.38,63.879C43.407,66.826 43.415,69.773 43.418,72.72C43.423,74.121 43.435,75.521 43.453,76.921C43.599,88.538 42.28,98.587 34,107.277C28.444,112.063 22.28,115.154 14.891,115.098C14.137,115.094 13.382,115.091 12.605,115.088C11.828,115.08 11.051,115.071 10.25,115.063C9.457,115.058 8.664,115.053 7.848,115.049C5.898,115.037 3.949,115.019 2,115C1.652,104.834 1.32,94.667 1,84.5C0.976,83.745 0.952,82.991 0.928,82.213C0.07,54.802 -0.26,27.426 0,0Z" style="fill:#23221F;fill-opacity:0.7;fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.44571,0,0,1.45277,1603.34,667.25)">
+                <path d="M0,0C2.126,1.479 3.912,3.153 5.789,4.938C17.523,15.884 31.563,22.228 47,26C48.016,26.299 49.032,26.598 50.078,26.906C75.833,33.757 86.453,32.196 92.497,31.246C97.65,30.436 99.951,29.414 104.127,28.95C108.315,29.384 111.988,33.814 112.039,36.28C112.089,38.746 110.039,42.331 106.578,44.672C89.809,56.019 48.038,47.226 36.125,43.875C35.376,43.665 34.627,43.454 33.855,43.238C25.726,40.817 18.365,37.16 11,33C10.004,32.444 9.007,31.889 7.98,31.316C1.018,27.163 -9.259,20.482 -13,13C-13.414,8.346 -12.811,5.748 -10,2C-6.157,-0.562 -4.566,-0.674 0,0Z" style="fill:#23221F;fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1.55611,0,0,1.56371,-11376.2,-2650.89)">
+                <circle cx="8409.32" cy="1605.88" r="17.745" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.67293,0,0,2.85837,-12593.2,-5537.79)">
+                <path d="M8818.23,2114.39L8818.23,2132.86C8818.23,2134.37 8816.15,2135.59 8813.58,2135.59L8804.27,2135.59C8801.71,2135.59 8799.62,2134.37 8799.62,2132.86L8799.62,2114.39C8799.62,2112.88 8801.71,2111.65 8804.27,2111.65L8813.58,2111.65C8816.15,2111.65 8818.23,2112.88 8818.23,2114.39Z" style="fill:#23221F;"/>
+            </g>
+            <g transform="matrix(1.59987,0,0,1.45277,-11742.1,-2466.17)">
+                <path d="M8413.95,1611.8C8413.99,1628.22 8414.02,1674.4 8414.04,1687.48L8401.9,1687.48L8402.11,1611.8L8413.95,1611.8Z" style="fill:#23221F;"/>
+            </g>
+        </g>
+    </g>
+</svg>
+</div><div class="tx " aria-label="Fred Torstensson, Product Design and Growth, fredrik.t.torstensson@gmail.com, 0401 424 461">
+ <div class="ln d1"><span class="n">Fred Torstensson</span> <span class="t">Product Design &amp; Growth</span></div>
+ <div class="ln d2"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a> | <a href="tel:+61401424461">0401 424 461</a></div>
+ <div class="ln m1 n">Fred Torstensson</div>
+ <div class="ln m2 t">Product Design &amp; Growth</div>
+ <div class="ln m3"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a></div>
+ <div class="ln m4"><a href="tel:+61401424461">0401 424 461</a></div>
+</div></section></main>
+<script>
+const $=id=>document.getElementById(id);
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelector('#bot .head').classList.add('at','y');
+/* ---------- text: split into letters with reading-order delays ---------- */
+document.querySelectorAll('.tx').forEach(tx=>{
+ const walk=(el,st)=>{[...el.childNodes].forEach(n=>{if(n.nodeType===3){const f=document.createDocumentFragment();
+   for(const w of n.textContent.split(/(\s+)/)){if(!w)continue;if(/^\s+$/.test(w)){f.appendChild(document.createTextNode(w));continue}
+    const wd=document.createElement('span');wd.style.whiteSpace='nowrap';
+    for(const ch of w){const c=document.createElement('span');c.className='c';c.textContent=ch;c.style.setProperty('--d',(st.k++*18)+'ms');wd.appendChild(c)}f.appendChild(wd)}
+   n.replaceWith(f)}else walk(n,st)})};
+const sd={k:0},sm={k:0};
+ tx.querySelectorAll('.d1,.d2').forEach(l=>walk(l,sd));tx.querySelectorAll('.m1,.m2,.m3,.m4').forEach(l=>walk(l,sm))});
+const txt=id=>document.querySelector('#'+id+' .tx');
+function textIn(id){const t=txt(id);if(!t.classList.contains('go'))t.classList.add('go')}
+function textReset(id){const t=txt(id);t.classList.remove('go')}
+/* a screen that has left the view entirely is reset, so it plays again next time */
+/* ---------- the F ---------- */
+const FP=[['rect','x="272" y="201" width="41" height="577"',0],['path','d="M346 201H654V284H383V477H609V560H383V778H346Z"',1],['rect','x="688" y="201" width="57" height="83"',2],['rect','x="417" y="317" width="57" height="126"',2],['rect','x="643" y="477" width="56" height="83"',2],['rect','x="417" y="594" width="57" height="184"',2]];
+$('F').innerHTML=FP.map(([t,a,g],i)=>`<${t} class="fp g${g}" ${a} style="animation-delay:${i*90}ms"/>`).join('');
+const PAL=['#10305F','#79D1C5','#C6D2C1','#E7E7D6','#23221F','#2A4650','#5C706C','#BAB7B2','#DB4E3B','#EA7F60','#F3B156','#F4E35A'];
+const lum=h=>{const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(v=>v<=.03928?v/12.92:((v+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+const con=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const DARK=PAL.filter(c=>lum(c)<0.12);
+const FIRST=['#23221F','#79D1C5','#F3B156','#EA7F60'];
+function palette(){for(let k=0;k<400;k++){const bg=pick(DARK),f=pick(PAL),c1=pick(PAL),c3=pick(PAL);if(new Set([bg,f,c1,c3]).size<4)continue;if(con(bg,f)<2.4||con(bg,c1)<1.5||con(bg,c3)<1.5||con(f,c3)<1.3)continue;return [bg,c1,f,c3]}return FIRST}
+function apply(p){$('home').style.setProperty('--bg',p[0]);document.querySelectorAll('.fp').forEach(e=>{e.style.fill=p[+e.classList[1][1]+1]})}
+apply(FIRST);
+let drift=null;
+function startF(){const F=$('F');F.classList.remove('in');void F.getBoundingClientRect();F.classList.add('in');clearTimeout(drift);apply(FIRST);
+ drift=setTimeout(function t(){apply(palette());drift=setTimeout(t,2600)},1700);setTimeout(()=>on.home&&textIn('home'),500)}
+function stopF(){clearTimeout(drift)}
+/* ---------- hello write-on ---------- */
+let gen=0;
+function writeHello(){gen++;const my=gen,p=$('hp'),L=p.getTotalLength();p.style.strokeDasharray=L;p.style.strokeDashoffset=L;let t0;
+ if(RM){p.style.strokeDashoffset=0;textIn('hello');return}
+ const e=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+ const f=ts=>{if(my!==gen)return;t0??=ts;const k=Math.min(1,(ts-t0)/3400);p.style.strokeDashoffset=L*(1-e(k));if(k<1)requestAnimationFrame(f);else setTimeout(()=>my===gen&&on.hello&&textIn('hello'),250)};
+ requestAnimationFrame(f)}
+/* ---------- FredBot ---------- */
+function startBot(){const b=$('bot');b.classList.remove('in');void b.offsetWidth;b.classList.add('in');setTimeout(()=>on.bot&&textIn('bot'),550)}
+/* ---------- screens: each one plays when it comes into view, and resets once it has left the view ----------
+   (IntersectionObserver, so it works whether the page scrolls itself or sits inside a frame) */
+const on={hello:false,home:false,bot:false};
+function play(id){on[id]=true;if(id==='hello')writeHello();else if(id==='home')startF();else startBot()}
+function reset(id){on[id]=false;textReset(id);
+ if(id==='hello'){gen++;const p=$('hp');p.style.strokeDashoffset=p.getTotalLength()}
+ if(id==='home'){stopF();$('F').classList.remove('in')}
+ if(id==='bot')$('bot').classList.remove('in')}
+const io=new IntersectionObserver(es=>es.forEach(en=>{const id=en.target.id;
+ const vis=en.rootBounds?en.intersectionRect.height/Math.min(en.rootBounds.height,en.boundingClientRect.height):en.intersectionRatio;
+ if(vis>=0.6&&!on[id])play(id);
+ else if(!en.isIntersecting||en.intersectionRatio===0){if(on[id])reset(id)}}),{threshold:[0,0.2,0.4,0.6,0.8,1]});
+['hello','home','bot'].forEach(id=>io.observe($(id)));
+/* ---------- magnetic paging ----------
+   The page doesn't scroll freely. A small scroll only pulls the page a little; if you let go before the
+   magnet lets go, it springs back (the only bounce). Past the threshold it glides, slowly and smoothly,
+   to the next screen and locks there. Wheel/trackpad, touch and keys all use the same logic. */
+const pages=$('pages'),N=3,GLIDE=1200;
+let idx=0,busy=false,acc=0,lastEv=0,lastAbs=0,quietUntil=0,idleT=null,raf=null,curPull=0;
+const H=()=>innerHeight, THRESH=()=>Math.max(60,H()*0.08), MAXPULL=()=>H()*0.05;
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+function setPull(p){curPull=p;pages.style.transition='none';pages.style.transform=p?`translateY(${-p}px)`:''}
+function pull(d){const m=MAXPULL();setPull(Math.sign(d)*m*(1-Math.exp(-Math.abs(d)/(m*2.2))))}
+function springBack(){curPull=0;pages.style.transition='transform .55s cubic-bezier(.25,1.25,.4,1)';pages.style.transform=''}
+/* after landing: the current screen plays (if it hasn't), the others reset */
+const IDS=['hello','home','bot'];
+function settle(){IDS.forEach((id,j)=>{if(j===idx){if(!on[id])play(id)}else if(on[id])reset(id)})}
+function go(i){i=Math.max(0,Math.min(N-1,i));acc=0;clearTimeout(idleT);
+ if(i===idx){springBack();return}
+ idx=i;busy=true;
+ // the pull is folded smoothly into the glide (no spring, no bounce)
+ const p0=curPull,y0=scrollY,y1=i*H(),dur=RM?0:GLIDE,t0=performance.now();cancelAnimationFrame(raf);
+ const step=now=>{const k=dur?Math.min(1,(now-t0)/dur):1,q=ease(k);scrollTo(0,y0+(y1-y0)*q);setPull(p0*(1-q));
+  if(k<1)raf=requestAnimationFrame(step);else{busy=false;setPull(0);quietUntil=performance.now()+900;settle()}};
+ raf=requestAnimationFrame(step)}
+addEventListener('wheel',e=>{e.preventDefault();
+ const now=performance.now(),gap=now-lastEv,d=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?H():1),ad=Math.abs(d);lastEv=now;
+ const prevAbs=lastAbs;lastAbs=ad;
+ if(busy)return;
+ // right after landing, ignore the trackpad's leftover momentum (small, fading deltas),
+ // but respond at once to a fresh push or after a short pause, so it never feels stuck
+ if(now<quietUntil){const fresh=gap>160||ad>prevAbs*1.5+4;if(!fresh)return;quietUntil=0}
+ if(Math.sign(d)!==Math.sign(acc))acc=0;acc+=d;
+ if(Math.abs(acc)>THRESH())go(idx+Math.sign(acc));
+ else{pull(acc);clearTimeout(idleT);idleT=setTimeout(()=>{acc=0;springBack()},260)}},{passive:false});
+let ty0=null,tt0=0;
+addEventListener('touchstart',e=>{if(e.touches.length!==1||busy)return;ty0=e.touches[0].clientY;tt0=performance.now()},{passive:true});
+addEventListener('touchmove',e=>{e.preventDefault();if(ty0===null||busy)return;pull((ty0-e.touches[0].clientY)*1.1)},{passive:false});
+addEventListener('touchend',e=>{if(ty0===null)return;const t=e.changedTouches[0],dy=ty0-t.clientY,v=Math.abs(dy)/Math.max(1,performance.now()-tt0);ty0=null;if(busy)return;
+ if(Math.abs(dy)>H()*0.1||(Math.abs(dy)>30&&v>0.45))go(idx+Math.sign(dy));else springBack()});
+addEventListener('touchcancel',()=>{ty0=null;if(!busy)springBack()});
+addEventListener('keydown',e=>{const k=e.key;
+ if(['ArrowDown','PageDown',' '].includes(k)){e.preventDefault();if(!busy)go(idx+1)}
+ else if(['ArrowUp','PageUp'].includes(k)){e.preventDefault();if(!busy)go(idx-1)}
+ else if(k==='Home'){e.preventDefault();if(!busy)go(0)}else if(k==='End'){e.preventDefault();if(!busy)go(N-1)}});
+/* the little scroll hint at the bottom is also a button */
+document.querySelectorAll('.hint').forEach(h=>h.addEventListener('click',()=>{if(!busy)go(idx+1)}));
+/* every screen is the size of the window: on resize or rotate, stay on the same screen */
+addEventListener('resize',()=>{cancelAnimationFrame(raf);busy=false;setPull(0);scrollTo(0,idx*H());settle()});
+idx=Math.round(scrollY/H());scrollTo(0,idx*H());
+</script></body></html>
