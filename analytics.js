@@ -1,5 +1,5 @@
 // Umami events for ftorstensson.com. Kept separate so design's index.html stays as delivered.
-// Tracks: which screens people reach (hello / home / bot), and email or phone taps.
+// Tracks: which screens people reach (hello / home / bot / game), and email or phone taps.
 (function () {
   function track(name, data) {
     try { if (window.umami) window.umami.track(name, data); } catch (e) {}
@@ -14,7 +14,7 @@
         if (e.isIntersecting && !seen[id]) { seen[id] = true; track('screen-' + id); }
       });
     }, { threshold: 0.6 });
-    ['hello', 'home', 'bot'].forEach(function (id) {
+    ['hello', 'home', 'bot', 'game'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) io.observe(el);
     });
