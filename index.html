@@ -420,7 +420,7 @@ function mkInvader(kind,x,y,ty){const sp=SPRITES[kind],p=gp.pix;return {kind,x,y
 /* phones (tall screens): 5 across and 4 rows deep, bigger pixels and a bigger ship; laptops: 7 across, 3 deep */
 function layoutGame(){const W=SW(),H=SH(),tall=W/H<0.8,pix=Math.max(2.4,Math.min(7,W/(tall?92:124),H/88));
  gp={pix,sp:pix*(tall?1.35:1),cols:tall?5:COLS,rows:tall?['drone','bot','f','f']:ROWS,W,H,cw:16*pix,rh:12*pix,top:Math.max(H*0.15,70),inv:[],shots:[],bombs:[],coins:[],dir:1,lastShot:0,lastBomb:0,keys:{},state:'ready',score:0,lives:3,kills:0,
-  ship:{x:W/2,y:H*0.88,level:0,cells:[],ds:[],safe:0}};
+  ship:{x:W/2,y:H*(tall?0.72:0.88),level:0 /* phones: room for a thumb under the ship */,cells:[],ds:[],safe:0}};
  const ox=(W-gp.cols*gp.cw)/2+gp.cw/2;
  gp.rows.forEach((kind,ri)=>{for(let ci=0;ci<gp.cols;ci++){const y=gp.top+ri*gp.rh;gp.inv.push(mkInvader(kind,ox+ci*gp.cw,y,y))}});
  gp.ship.cells=cellsOf(SHIPS[0],gp.sp)}
