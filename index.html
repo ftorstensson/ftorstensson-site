@@ -122,22 +122,35 @@ section{height:100vh;height:100svh;position:relative;overflow:hidden}
  /* keep the initials above the phone keyboard */
  #board[data-step=new]{justify-content:flex-start;padding-top:18vh}}
 #show .dusk{position:absolute;left:0;right:0;top:0;height:24%;pointer-events:none;background:linear-gradient(to bottom,#23221F 0%,rgba(35,34,31,.94) 10%,rgba(35,34,31,.8) 21%,rgba(35,34,31,.6) 33%,rgba(35,34,31,.4) 46%,rgba(35,34,31,.22) 60%,rgba(35,34,31,.09) 75%,rgba(35,34,31,.02) 89%,rgba(35,34,31,0) 100%)}
-</style></head><body>
-<main id="pages"><section id="hello"><svg id="hsvg" class="at y" viewBox="174.8 235.3 1561.5 534.8" aria-label="hello"><path id="hp" d="M390.9 246.3 C386 339.89 475.78 357.32 476.79 311.43 C477.41 282.86 434.7 283.99 408.3 325.15 C395.39 345.28 386.47 376.19 401.62 435.6 C411.08 472.68 396.89 511.25 359.79 513.29 C293.2 516.94 328.79 393.27 320.07 358.36 C311.62 324.58 264.68 320.93 236 344.52 C160.93 406.26 186.29 573.56 208.91 658.1 C219.17 696.44 242.11 758.39 290.23 759.07 C383.1 760.38 315.22 650.79 370.53 624.68 C441.11 603.42 396.07 729.24 487.96 718.94 C565.29 710.27 533.67 552.07 516.8 490.45 C497.25 419.02 524.59 376.32 545.4 357.47 C585.02 321.59 642.24 310.75 690.69 322.03 C725.67 338.87 743.97 381.6 712.75 410.68 C682.9 438.48 624.95 430.84 629.36 455.17 C634.06 481.09 662.8 464.76 706.8 462.1 C736.75 460.29 756.48 536.52 712.14 553.12 C694.11 559.87 650.1 554.64 654.02 579.16 C658.22 605.4 699.35 582.07 725.83 589.5 C753.09 597.15 763.1 639.84 749.24 672.91 C732.32 713.27 675.87 742.47 670.13 707.71 C661.12 653.19 780.64 737.02 816.2 664.3 C856.09 582.76 802.54 452.95 796.46 389.96 C791.54 338.84 810.91 307.02 874.4 289.45 C1025.73 262.87 900.37 516.89 926.33 569.75 C942.96 603.6 973.93 596.98 1008.75 602.88 C1036.21 607.53 1064.47 621.88 1059.21 653 C1055.05 677.61 1039.5 701.71 1039.5 701.71 C1039.5 701.71 1128.91 693.98 1128.77 576.42 C1138.23 498.7 1055.97 291.65 1190.72 295.92 C1219.35 296.83 1241.8 315.49 1252.47 327.74 C1313.23 397.53 1207.84 512.96 1213.65 588.41 C1217.8 642.26 1331.37 572.41 1362.98 597.96 C1381.18 612.68 1369.02 692.19 1325.63 687.52 C1288.78 683.55 1322.12 553.19 1347.78 482.54 C1381.25 390.39 1464.23 306.83 1592.68 330.33 C1667.29 343.98 1731.76 395.79 1724.78 509.26 C1717.96 620.04 1594.8 709.29 1485.4 644.02 C1349.19 562.75 1457.66 368.39 1564.39 409.04 C1670.88 449.6 1597.47 589.42 1547.14 560.37 C1512.26 540.24 1571.98 446.31 1623.38 573.1" stroke-width="22"/></svg><div class="tx " aria-label="Fred Torstensson, Product Design and Growth, fredrik.t.torstensson@gmail.com, 0401 424 461">
- <div class="ln d1"><span class="n">Fred Torstensson</span> <span class="t">Product Design &amp; Growth</span></div>
- <div class="ln d2"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a> | <a href="tel:+61401424461">0401 424 461</a></div>
- <div class="ln m1 n">Fred Torstensson</div>
- <div class="ln m2 t">Product Design &amp; Growth</div>
- <div class="ln m3"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a></div>
- <div class="ln m4"><a href="tel:+61401424461">0401 424 461</a></div>
+
+/* the story lines: one font (Inder), one size, lines broken to near-equal length */
+.story .ln{font-size:calc(30 * var(--u))}.story .d1{--y:602}.story .d2{--y:644}
+@media (max-aspect-ratio:4/5){.story .ln{font-size:calc(48 * var(--u))}.story .m1{--y:1227}.story .m2{--y:1293}.story .m3{--y:1359}.story .m4{--y:1425}}
+
+/* page to page: the postcard and Selected work slide sideways, like one long wall (Chrome, Edge, Safari 18.2+; others just switch) */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.9s;animation-timing-function:cubic-bezier(.65,0,.35,1);animation-fill-mode:both;mix-blend-mode:normal}
+@keyframes vt-out-left{to{transform:translateX(-100vw)}}@keyframes vt-in-right{from{transform:translateX(100vw)}}
+@keyframes vt-out-right{to{transform:translateX(100vw)}}@keyframes vt-in-left{from{transform:translateX(-100vw)}}
+html.vt-fwd::view-transition-old(root){animation-name:vt-out-left}html.vt-fwd::view-transition-new(root){animation-name:vt-in-right}
+html.vt-back::view-transition-old(root){animation-name:vt-out-right}html.vt-back::view-transition-new(root){animation-name:vt-in-left}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+</style><script>addEventListener('pagereveal',e=>{if(!e.viewTransition)return;document.documentElement.classList.add('vt-back');e.viewTransition.finished.finally(()=>document.documentElement.classList.remove('vt-back'))})</script></head><body>
+<main id="pages"><section id="hello"><svg id="hsvg" class="at y" viewBox="174.8 235.3 1561.5 534.8" aria-label="hello"><path id="hp" d="M390.9 246.3 C386 339.89 475.78 357.32 476.79 311.43 C477.41 282.86 434.7 283.99 408.3 325.15 C395.39 345.28 386.47 376.19 401.62 435.6 C411.08 472.68 396.89 511.25 359.79 513.29 C293.2 516.94 328.79 393.27 320.07 358.36 C311.62 324.58 264.68 320.93 236 344.52 C160.93 406.26 186.29 573.56 208.91 658.1 C219.17 696.44 242.11 758.39 290.23 759.07 C383.1 760.38 315.22 650.79 370.53 624.68 C441.11 603.42 396.07 729.24 487.96 718.94 C565.29 710.27 533.67 552.07 516.8 490.45 C497.25 419.02 524.59 376.32 545.4 357.47 C585.02 321.59 642.24 310.75 690.69 322.03 C725.67 338.87 743.97 381.6 712.75 410.68 C682.9 438.48 624.95 430.84 629.36 455.17 C634.06 481.09 662.8 464.76 706.8 462.1 C736.75 460.29 756.48 536.52 712.14 553.12 C694.11 559.87 650.1 554.64 654.02 579.16 C658.22 605.4 699.35 582.07 725.83 589.5 C753.09 597.15 763.1 639.84 749.24 672.91 C732.32 713.27 675.87 742.47 670.13 707.71 C661.12 653.19 780.64 737.02 816.2 664.3 C856.09 582.76 802.54 452.95 796.46 389.96 C791.54 338.84 810.91 307.02 874.4 289.45 C1025.73 262.87 900.37 516.89 926.33 569.75 C942.96 603.6 973.93 596.98 1008.75 602.88 C1036.21 607.53 1064.47 621.88 1059.21 653 C1055.05 677.61 1039.5 701.71 1039.5 701.71 C1039.5 701.71 1128.91 693.98 1128.77 576.42 C1138.23 498.7 1055.97 291.65 1190.72 295.92 C1219.35 296.83 1241.8 315.49 1252.47 327.74 C1313.23 397.53 1207.84 512.96 1213.65 588.41 C1217.8 642.26 1331.37 572.41 1362.98 597.96 C1381.18 612.68 1369.02 692.19 1325.63 687.52 C1288.78 683.55 1322.12 553.19 1347.78 482.54 C1381.25 390.39 1464.23 306.83 1592.68 330.33 C1667.29 343.98 1731.76 395.79 1724.78 509.26 C1717.96 620.04 1594.8 709.29 1485.4 644.02 C1349.19 562.75 1457.66 368.39 1564.39 409.04 C1670.88 449.6 1597.47 589.42 1547.14 560.37 C1512.26 540.24 1571.98 446.31 1623.38 573.1" stroke-width="22"/></svg><div class="tx story" aria-label="I'm Fred. I'm a digital product designer based in Sydney. Welcome to my build sandbox.">
+ <div class="ln d1">I&rsquo;m Fred. I&rsquo;m a digital product designer</div>
+ <div class="ln d2">based in Sydney. Welcome to my build sandbox.</div>
+ <div class="ln m1">I&rsquo;m Fred. I&rsquo;m a digital product</div>
+ <div class="ln m2">designer based in Sydney.</div>
+ <div class="ln m3">Welcome to my build sandbox.</div>
+ <div class="ln m4"></div>
 </div><button class="hint" aria-label="Next"><i></i></button></section>
-<section id="home"><svg id="F" class="at y" viewBox="272 201 473 577" aria-label="F"></svg><div class="tx " aria-label="Fred Torstensson, Product Design and Sales, fredrik.t.torstensson@gmail.com, 0401 424 461">
- <div class="ln d1"><span class="n">Fred Torstensson</span> <span class="t">Product Design &amp; Sales</span></div>
- <div class="ln d2"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a> | <a href="tel:+61401424461">0401 424 461</a></div>
- <div class="ln m1 n">Fred Torstensson</div>
- <div class="ln m2 t">Product Design &amp; Sales</div>
- <div class="ln m3"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a></div>
- <div class="ln m4"><a href="tel:+61401424461">0401 424 461</a></div>
+<section id="home"><svg id="F" class="at y" viewBox="272 201 473 577" aria-label="F"></svg><div class="tx story" aria-label="Always be building. Build to learn. Spin the adaptive loop. User first.">
+ <div class="ln d1">Always be building. Build to learn.</div>
+ <div class="ln d2">Spin the adaptive loop. User first.</div>
+ <div class="ln m1">Always be building. Build to learn.</div>
+ <div class="ln m2">Spin the adaptive loop. User first.</div>
+ <div class="ln m3"></div>
+ <div class="ln m4"></div>
 </div><button class="hint" aria-label="Next"><i></i></button></section>
 <section id="bot"><div class="hw"><svg class="head" role="img" aria-label="FredBot" viewBox="44 -10 881 1076" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <path d="M466.5 1063.2 L436.0 1061.2 L413.0 1056.2 L302.5 1019.8 L273.5 1011.2 L241.5 998.8 L219.0 987.8 L196.5 973.8 L180.0 960.8 L159.8 940.0 L147.2 922.5 L137.8 904.5 L128.2 877.0 L123.8 856.0 L121.2 832.5 L121.2 801.0 L123.8 761.0 L109.0 760.2 L95.5 757.2 L82.5 751.2 L70.5 742.8 L61.8 733.5 L56.2 725.5 L49.2 710.0 L46.2 695.0 L46.2 610.0 L49.8 591.0 L56.8 574.5 L63.8 564.5 L72.5 555.8 L80.0 550.2 L89.5 545.2 L101.0 541.2 L108.5 539.8 L129.8 539.0 L130.8 519.5 L107.5 513.2 L91.0 505.8 L85.5 501.8 L79.8 495.5 L77.2 490.5 L76.8 485.0 L78.2 480.5 L92.5 467.8 L119.5 449.8 L149.8 432.5 L146.8 374.5 L146.2 339.5 L147.2 316.5 L149.8 294.5 L153.8 275.5 L159.2 259.5 L164.2 249.5 L175.2 234.5 L187.5 223.2 L208.0 210.2 L230.5 198.8 L266.5 182.8 L317.5 162.8 L441.0 119.2 L441.2 55.5 L437.0 52.8 L428.8 43.5 L424.8 33.0 L424.2 22.0 L426.2 14.0 L431.2 5.5 L440.5 -2.8 L446.5 -5.8 L453.0 -7.2 L462.5 -7.2 L469.0 -5.8 L478.5 -0.2 L486.8 9.0 L489.2 14.0 L491.2 22.0 L491.2 30.5 L490.2 35.5 L486.8 43.5 L478.5 52.8 L474.2 55.5 L474.5 119.8 L606.5 164.8 L645.0 179.2 L688.0 197.2 L711.5 208.8 L735.0 223.2 L748.8 236.0 L756.2 246.5 L763.2 260.0 L768.2 274.0 L772.8 292.5 L776.2 315.5 L778.8 360.0 L777.8 434.0 L807.5 452.2 L826.5 466.8 L843.2 483.5 L848.2 490.0 L849.8 494.5 L849.2 497.5 L845.8 503.0 L835.5 512.2 L828.5 515.8 L819.0 518.8 L793.5 523.2 L793.5 539.2 L813.0 540.2 L830.0 544.2 L843.5 550.8 L857.8 562.0 L859.2 371.0 L850.0 365.2 L843.2 358.5 L839.2 353.0 L834.8 342.5 L833.2 335.0 L833.2 325.5 L834.8 318.0 L839.2 307.5 L849.0 296.2 L855.0 291.8 L861.0 288.8 L873.0 285.8 L883.0 285.8 L892.0 287.8 L900.5 291.8 L905.5 295.2 L914.8 305.0 L920.8 317.5 L922.8 329.5 L921.2 341.5 L915.8 354.0 L905.5 365.2 L895.8 371.5 L895.8 695.5 L894.2 700.0 L889.0 705.2 L881.5 707.8 L873.8 708.0 L869.2 720.5 L863.2 730.5 L857.2 738.0 L846.0 748.2 L828.5 756.8 L814.0 759.8 L801.5 760.2 L800.2 761.0 L801.2 777.5 L801.8 830.5 L799.8 856.0 L794.8 879.5 L789.8 894.5 L782.8 910.0 L774.8 924.0 L759.8 944.0 L737.0 966.2 L722.5 977.2 L710.5 984.8 L682.5 998.8 L659.0 1008.2 L632.0 1016.2 L514.5 1056.2 L488.0 1061.8 L466.5 1063.2Z" id="plate"/>
@@ -189,13 +202,13 @@ section{height:100vh;height:100svh;position:relative;overflow:hidden}
         </g>
     </g>
 </svg>
-</div><div class="tx " aria-label="Fred Torstensson, Product Design and Love, fredrik.t.torstensson@gmail.com, 0401 424 461">
- <div class="ln d1"><span class="n">Fred Torstensson</span> <span class="t">Product Design &amp; Love</span></div>
- <div class="ln d2"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a> | <a href="tel:+61401424461">0401 424 461</a></div>
- <div class="ln m1 n">Fred Torstensson</div>
- <div class="ln m2 t">Product Design &amp; Love</div>
- <div class="ln m3"><a href="mailto:fredrik.t.torstensson@gmail.com">fredrik.t.torstensson@gmail.com</a></div>
- <div class="ln m4"><a href="tel:+61401424461">0401 424 461</a></div>
+</div><div class="tx story" aria-label="As a Swede, I know all good things start with a fika. Don't be a stranger. Let's fika!">
+ <div class="ln d1">As a Swede, I know all good things start</div>
+ <div class="ln d2">with a fika. Don&rsquo;t be a stranger. <a href="https://www.linkedin.com/in/ftorstensson/" target="_blank" rel="noopener">Let&rsquo;s fika!</a></div>
+ <div class="ln m1">As a Swede, I know all good</div>
+ <div class="ln m2">things start with a fika.</div>
+ <div class="ln m3">Don&rsquo;t be a stranger. <a href="https://www.linkedin.com/in/ftorstensson/" target="_blank" rel="noopener">Let&rsquo;s fika!</a></div>
+ <div class="ln m4"></div>
 </div><button class="hint" aria-label="Next"><i></i></button></section>
 <section id="game" aria-label="Invaders from Space"><div id="show"><canvas id="twinkle" aria-hidden="true"></canvas><div class="dusk" aria-hidden="true"></div><canvas id="sky" aria-hidden="true"></canvas><p id="say" aria-live="polite"></p><div id="board" role="dialog" aria-label="High scores" data-step="list"><div class="st st-new"><p class="big">NEW HIGH SCORE</p><p class="bd-s"></p><form><p>ENTER YOUR INITIALS</p><input maxlength="3" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" inputmode="text" aria-label="Your initials"><button type="submit">OK</button><p class="bd-err" aria-live="polite"></p></form></div><div class="st st-list"><p class="big">HIGH SCORES</p><p class="bd-s"></p><ol aria-label="Top 10"></ol><div class="bd-b"><button type="button" class="bd-again">PLAY AGAIN</button><button type="button" class="bd-done">DONE</button></div></div></div><p id="copy">© Ftorstensson 2026 in collaboration with FreddieLab. All rights reserved.</p><button id="dsb" type="button" aria-label="Insert coin"><span class="en">INSERT COIN</span><span class="jp" lang="ja" aria-hidden="true">インサートコイン</span></button></div></section></main>
 <script>
@@ -296,7 +309,7 @@ addEventListener('touchend',e=>{if(ty0===null)return;const t=e.changedTouches[0]
  if(playing()){if(-dy>H()*0.22&&Math.abs(dy)>2*Math.abs(t.clientX-tx0))go(idx-1);return}
  if(Math.abs(dy)>H()*0.1||(Math.abs(dy)>30&&v>0.45))go(idx+Math.sign(dy));else springBack()});
 addEventListener('touchcancel',()=>{ty0=null;if(!busy)springBack()});
-addEventListener('keydown',e=>{const k=e.key;
+addEventListener('keydown',e=>{const k=e.key;if(window.MENUOPEN)return;
  if(playing()){if(k==='PageUp'||k==='Home'){e.preventDefault();if(!busy)go(k==='Home'?0:idx-1)}return}
  if(['ArrowDown','PageDown',' '].includes(k)){e.preventDefault();if(!busy)go(idx+1)}
  else if(['ArrowUp','PageUp'].includes(k)){e.preventDefault();if(!busy)go(idx-1)}
@@ -590,6 +603,60 @@ window.GAME={enter(){showReady();if(!twOn){twOn=true;layoutStars();requestAnimat
  leave(){showReset();stage.classList.remove('ready');twOn=false;tx.clearRect(0,0,tc.width,tc.height)},
  active:()=>mode!=='idle'};
 
+})();
+</script><!-- ---------- site navigation: menu dot, name line, menu (own scope; does not touch the paging or the game) ---------- -->
+<style>
+/* dark screens: cream dot, cream name, cream menu card with ink text. Hidden while a game runs (the score sits there) */
+#dot{position:fixed;left:20px;top:20px;width:14px;height:14px;padding:0;border:0;border-radius:50%;background:#E7E7D6;cursor:pointer;z-index:60;transition:transform .2s ease-out,opacity .3s}
+#dot::after{content:"";position:absolute;inset:-12px}
+#dot:hover,#dot:focus-visible,#dot[aria-expanded=true]{transform:scale(1.3);outline:none}
+#who{position:fixed;left:46px;top:20px;z-index:58;margin:0;height:14px;display:flex;align-items:center;gap:.9em;font:400 15px/1 Inder,sans-serif;letter-spacing:.01em;color:#E7E7D6;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+#who .name{all:unset;cursor:pointer;pointer-events:auto;position:relative}#who .name::after{content:"";position:absolute;inset:-10px -4px}
+#who .name:hover,#who .name:focus-visible{text-decoration:underline;text-underline-offset:3px}
+#who a{color:inherit;text-decoration:none;pointer-events:auto;position:relative}#who a::after{content:"";position:absolute;inset:-10px -6px}
+#who a:hover,#who a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:3px;outline:none}
+@media (max-width:480px){#who{font-size:13px;gap:.7em}}
+body.gaming #dot,body.gaming #who{opacity:0;pointer-events:none}body.gaming #who *{pointer-events:none}
+#menu{position:fixed;left:20px;top:46px;z-index:59;display:grid;grid-template-columns:auto auto;gap:6px 40px;padding:18px 24px 20px;background:#E7E7D6;color:#23221F;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.35);opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .2s,transform .2s}
+#menu.on{opacity:1;transform:none;pointer-events:auto}
+#menu .col{display:flex;flex-direction:column;gap:2px;min-width:0}
+#menu a{color:inherit;text-decoration:none;font:700 17px/1.6 Inder,sans-serif;white-space:nowrap}
+#menu .head{margin-bottom:4px}
+#menu .hi{margin:0 0 4px;font-weight:700;font-size:17px;line-height:1.35;max-width:15em;white-space:normal}#menu .cases,#menu .mlinks{display:flex;flex-direction:column}#menu .mlinks a{font-weight:400}#menu .cases a{font-weight:400}
+#menu a:hover,#menu a:focus-visible{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+@media (max-width:480px){#menu{grid-template-columns:auto;gap:18px;right:20px}}
+@media (prefers-reduced-motion:reduce){#menu{transition:none}}
+</style>
+<button id="dot" aria-label="Menu" aria-expanded="false" aria-controls="menu"></button>
+<p id="who"><button class="name" aria-controls="menu">Fred Torstensson</button><a href="https://www.linkedin.com/in/ftorstensson/" target="_blank" rel="noopener">LinkedIn</a></p>
+<nav id="menu" aria-label="Menu">
+ <div class="col"><a class="head" href="./" data-go="0">Hello there!</a><div class="mlinks"><a href="?to=f" data-go="1">Deep thoughts</a><a href="?to=fredbot" data-go="2">Fika</a><a href="?to=game" data-go="3">Invaders from Space</a></div></div>
+ <div class="col"><a class="head" href="work/">Selected work</a><div class="cases"><a href="work/?c=fiji">Tourism Fiji</a><a href="work/?c=ikea">IKEA Australia</a><a href="work/?c=nsw">Parliament of NSW</a><a href="work/?c=rsl">RSL Queensland Lottery</a><a href="work/?c=afp">Australian Federal Police</a><a href="work/?c=unsw">UNSW</a></div></div>
+</nav>
+<script>
+(()=>{const dot=document.getElementById('dot'),menu=document.getElementById('menu'),name=document.querySelector('#who .name');
+const setMenu=on=>{menu.classList.toggle('on',on);dot.setAttribute('aria-expanded',on);window.MENUOPEN=on};
+const tog=e=>{e.stopPropagation();setMenu(!menu.classList.contains('on'))};dot.addEventListener('click',tog);name.addEventListener('click',tog);
+addEventListener('pointerdown',e=>{if(menu.classList.contains('on')&&!menu.contains(e.target)&&e.target!==dot&&e.target!==name)setMenu(false)},true);
+addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('on')){setMenu(false);dot.focus()}});
+/* postcard screens: glide there on this page */
+menu.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();setMenu(false);try{if(!busy)idx=Math.round(scrollY/innerHeight);go(+a.dataset.go)}catch(err){}}));
+menu.querySelectorAll('a:not([data-go])').forEach(a=>a.addEventListener('click',()=>{menu.style.transition='none';setMenu(false);try{sessionStorage.setItem('fromPostcard',/[?&]c=/.test(a.getAttribute('href'))?'1':'0')}catch(e){}}));  /* close before the page slides away */
+/* hide the dot and the name while a game is running */
+setInterval(()=>{const g=typeof idx!=='undefined'&&idx===3&&window.GAME&&GAME.active();document.body.classList.toggle('gaming',!!g)},250);
+})();
+</script>
+<script>
+/* arriving from Selected work: start on the chosen screen. The work menu leaves its number in sessionStorage
+   (a host may drop the query); ?to=f|fredbot|game also works. The browser may try to restore the old scroll
+   position afterwards, so scroll restoration is off and the screen is held in place for the first second. */
+(()=>{try{history.scrollRestoration='manual'}catch(e){}
+const want=()=>{let i=['','f','fredbot','game'].indexOf((new URLSearchParams(location.search).get('to')||'').toLowerCase());
+ try{const s=sessionStorage.getItem('toScreen');sessionStorage.removeItem('toScreen');if(s!==null)i=+s}catch(e){}return i>=0&&i<4?i:-1};
+const hold=i=>{const H=()=>innerHeight;const fix=()=>{if(busy)return;idx=i;if(Math.abs(scrollY-i*H())>2)scrollTo(0,i*H());try{settle()}catch(e){}};
+ fix();[50,150,300,600,1000].forEach(t=>setTimeout(fix,t));addEventListener('load',fix,{once:true})};
+const i=want();if(i>0)hold(i);
+addEventListener('pageshow',e=>{if(!e.persisted)return;const j=want();hold(j>=0?j:Math.round(scrollY/innerHeight))});
 })();
 </script><script defer src="/routes.js"></script>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="7b6bde43-458c-4604-83e6-8c2b839b1432"></script>
