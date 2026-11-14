@@ -607,7 +607,7 @@ window.GAME={enter(){showReady();if(!twOn){twOn=true;layoutStars();requestAnimat
 </script><!-- ---------- site navigation: menu dot, name line, menu (own scope; does not touch the paging or the game) ---------- -->
 <style>
 /* dark screens: cream dot, cream name, cream menu card with ink text. Hidden while a game runs (the score sits there) */
-#dot{position:fixed;left:14px;top:14px;width:26px;height:26px;padding:0;border:0;border-radius:50%;cursor:pointer;z-index:60;transition:transform .2s ease-out,opacity .3s;background:linear-gradient(#23221F,#23221F) center calc(50% - 4px)/11px 2px no-repeat,linear-gradient(#23221F,#23221F) center/11px 2px no-repeat,linear-gradient(#23221F,#23221F) center calc(50% + 4px)/11px 2px no-repeat,#E7E7D6}
+#dot{position:fixed;left:14px;top:14px;width:26px;height:26px;padding:0;border:0;border-radius:50%;cursor:pointer;z-index:60;transition:transform .2s ease-out,opacity .3s;background:linear-gradient(#23221F,#23221F) center calc(50% - 4px)/11px 1px no-repeat,linear-gradient(#23221F,#23221F) center/7px 1px no-repeat,linear-gradient(#23221F,#23221F) center calc(50% + 4px)/11px 1px no-repeat,#E7E7D6}
 #dot::after{content:"";position:absolute;inset:-12px}
 #dot:hover,#dot:focus-visible,#dot[aria-expanded=true]{transform:scale(1.12);outline:none}
 #who{position:fixed;left:50px;top:20px;z-index:58;margin:0;height:14px;display:flex;align-items:center;gap:.9em;font:400 15px/1 Inder,sans-serif;letter-spacing:.01em;color:#E7E7D6;white-space:nowrap;pointer-events:none;transition:opacity .3s}
