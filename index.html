@@ -544,7 +544,7 @@ bdIn.addEventListener('input',()=>{bdIn.value=bdIn.value.toUpperCase().replace(/
 bdIn.addEventListener('keydown',e=>e.stopPropagation());
 function closeBoard(){send('');bd.classList.remove('on');bdIn.blur()}
 bd.querySelector('.bd-again').addEventListener('click',e=>{e.stopPropagation();closeBoard();showReset();startShow(true)});
-bd.querySelector('.bd-done').addEventListener('click',e=>{e.stopPropagation();closeBoard();goHome()});
+bd.querySelector('.bd-done').addEventListener('click',e=>{e.stopPropagation();closeBoard();goHome();setTimeout(()=>{if(typeof go==='function')go(0)},250)});  /* Done: back up to hello (Fred, 15 Nov) */
 
 /* ---------- back into the button, fast ---------- */
 let homing=false;
