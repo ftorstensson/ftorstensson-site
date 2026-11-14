@@ -6,8 +6,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inder&family=Grenze:wght@700&display=swap">
 <style>
-:root{--ink:#23221F;--cream:#E7E7D6;--paper:#fbfaf3}
-html,body{margin:0;height:100%;overflow:hidden;background:var(--cream);color:var(--ink);font-family:Inder,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+:root{--ink:#23221F;--cream:#E7E7D6;--paper:#fbfaf3;--board:#F0F2E9}  /* board = the old RSL tint (Fred, 15 Nov); RSL now uses the cream */
+html,body{margin:0;height:100%;overflow:hidden;background:var(--board);color:var(--ink);font-family:Inder,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 /* board; the dot grid never gets denser than it is at reading size */
 .vp{position:fixed;inset:0;overflow:hidden;cursor:grab;touch-action:none}
 .vp.drag{cursor:grabbing}
@@ -58,7 +58,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--cream);color:var
 @media (max-width:700px){.hint{display:none}.bar .dots{display:none}}
 
 /* the first page: the work board from the postcard preview */
-.index{position:fixed;inset:0;background:var(--cream)}
+.index{position:fixed;inset:0;background:var(--board)}
 .ivp{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:none}
 .ivp.drag{cursor:grabbing}
 .iworld{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
@@ -271,6 +271,9 @@ html.deep .index{visibility:hidden}  /* inside a case the name would sit on the 
 
 #menu a:hover,#menu a:focus-visible{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 
+/* Selected work: no menu dot (Fred, 15 Nov); the back button, then the name, which opens the menu */
+#dot{display:none!important}#who{left:50px}#menu{left:13px}
+
 /* page to page: the postcard and Selected work slide sideways, like one long wall (Chrome, Edge, Safari 18.2+; others just switch) */
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.9s;animation-timing-function:cubic-bezier(.65,0,.35,1);animation-fill-mode:both;mix-blend-mode:normal}
@@ -282,9 +285,9 @@ html.vt-back::view-transition-old(root){animation-name:vt-out-right}html.vt-back
 </style><script>addEventListener('pagereveal',e=>{if(!e.viewTransition)return;document.documentElement.classList.add('vt-fwd');e.viewTransition.finished.finally(()=>document.documentElement.classList.remove('vt-fwd'))})</script><script>if(/[?&]c=[a-z]/.test(location.search)||/\/work\/[a-z]+\/?$/.test(location.pathname))document.documentElement.classList.add('deep')</script></head><body>
 <button class="back" aria-label="Back to hello"><svg viewBox="0 0 26 26" aria-hidden="true"><path class="i-back" d="M14.6 8.2 9.8 13l4.8 4.8"/><path class="i-close" d="M9 9l8 8M17 9l-8 8"/></svg></button>
 <button id="dot" aria-label="Menu" aria-expanded="false" aria-controls="menu"></button>
-<p id="who"><button class="name" aria-controls="menu">Fred Torstensson</button><a href="https://www.linkedin.com/in/ftorstensson/" target="_blank" rel="noopener">LinkedIn</a></p>
+<p id="who"><button class="name" aria-controls="menu">Fred Torstensson</button><a href="https://www.linkedin.com/in/ftorstensson/" target="_blank" rel="noopener">Contact me (LinkedIn)</a></p>
 <nav id="menu" aria-label="Menu">
- <div class="col"><a class="head" href="../" data-go="0">Hello there!</a><div class="mlinks"><a href="../?to=f" data-go="1">Deep thoughts</a><a href="../?to=fredbot" data-go="2">Fika</a><a href="../?to=game" data-go="3">Invaders from Space</a></div></div>
+ <div class="col"><a class="head" href="../" data-go="0">Hello</a><div class="mlinks"><a href="../?to=f" data-go="1">Deep thoughts</a><a href="../?to=fredbot" data-go="2">Let’s fika</a><a href="../?to=game" data-go="3">Invaders from Space</a></div></div>
  <div class="col"><a class="head" href="./" data-work="">Selected work</a><div class="cases"></div></div>
 </nav>
 <main class="index" aria-label="Selected work"><div class="ivp"><div class="iworld"></div></div><div class="ctl"><button data-z="-1" aria-label="Zoom out">−</button><button data-z="1" aria-label="Zoom in">+</button><button data-z="0">Fit</button></div></main>
@@ -354,12 +357,12 @@ const CASES=[
    'Multicultural NSW (NSW Government): “one of the most culturally diverse states in the world”.',
    'A rough estimate for 2021–22. The Legislative Council’s committees took in 7,521 submissions, and its members lodged 2,351 written questions (Legislative Council Annual Report 2021–22). The Legislative Assembly lodged more than 1,000 written questions a year, going by its question numbers from November 2021 to June 2022. That’s already nearly 11,000, before Hansard, minutes, tabled papers and the Assembly’s committees. The records start in 1824, when the Legislative Council first met.',
    'StatCounter Global Stats, October 2026: 59.9% of web traffic worldwide came from mobile phones, against 38.5% from desktops.']},
- {id:'rsl',side:true,logo:'logos/rsl.webp',name:'RSL Queensland Lottery',accent:'#C6D2C1',photo:'cards/rsl.jpg',photos:[['photos/rsl-home.jpg','A prize home'],['photos/rsl-balcony.jpg','A prize home balcony'],['photos/rsl-medals.jpg','Veterans’ medals']],
+ {id:'rsl',side:true,logo:'logos/rsl.webp',name:'RSL Queensland Lottery',accent:'#C6D2C1',bg:'#E7E7D6',photo:'cards/rsl.jpg',photos:[['photos/rsl-home.jpg','A prize home'],['photos/rsl-balcony.jpg','A prize home balcony'],['photos/rsl-medals.jpg','Veterans’ medals']],
   short:'A dream home lottery, built to sell on a phone.',who:'Host/Havas · UX Director · 2022',res:'“Smart CTA is a winner” (218 testers)',
   title:'RSL Queensland Lottery: a dream home lottery, built to sell on a phone',
   kick:'For RSL Queensland, at Host/Havas · UX Director · Strategy, UX and UI design up to the build · 2022',
   sections:[
-   {id:'problem',h:'Problem',pic:'Loyal buyers and dream buyers',p:['Lotteries are big business in Australia. After prizes, Australians spend over $3 billion a year on them.<sup>1</sup> RSL Queensland runs the country’s biggest prize home lottery,<sup>2</sup> and it’s the main way it pays for its work with veterans and their families. But the buyers were changing. The loyal ones, many of whom bought for the cause, were getting older. Newer buyers came for the dream home, and to them it could become just another game. Then there’s the phone. Over half the site’s traffic came from mobile, and mobile converted below desktop. Closing that gap was worth about $1.2 million a year.<sup>3</sup> The best customers were the VIPs, who subscribe. But the offer was hard to understand, and pausing it took a phone call. So the site had to make a complicated lottery simple, on a small screen.']},
+   {id:'problem',h:'Problem',pic:'Loyal buyers and dream buyers',p:['Lotteries are big business in Australia. After prizes, Australians spend over $3 billion a year on them.<sup>1</sup> RSL Queensland runs the country’s biggest prize home lottery,<sup>2</sup> and it’s the main way it pays for its work with veterans and their families. But the buyers were changing. The loyal ones, many of whom bought for the cause, were getting older. Newer buyers came for the dream home, and to them it could become just another game. Then there’s the phone. Most of the site’s traffic came from mobile, and mobile converted below desktop. Closing that gap was worth a lot. The best customers were the VIPs, who subscribe. But the offer was hard to understand, and pausing it took a phone call. So the site had to make a complicated lottery simple, on a small screen.']},
    {id:'solution',h:'Solution',pic:'The Smart CTA',p:['The idea: let the checkout come to you. Tap buy, and the checkout opens on top of the page, so nobody leaves the dream home they’re looking at. We called it the Smart CTA. That’s where the hard decisions live: how many tickets, which bonus, one draw or a subscription, and how to pay. Each had to feel obvious on a phone, with Apple Pay, Google Pay and PayPal a tap away. Subscription comes first, because the lottery would now sell itself as a subscription, with single tickets on the side. Users told us the catch: “Yes please, as long as it’s easy to pause.” So the member area works like an app. Members pause and manage it all themselves. No phone call.']},
    {id:'role',h:'My role',intro:'I led the strategy and the experience, from the first workshops to the final prototype test.',items:[
     ['Research:','stakeholder workshops and interviews at RSL Queensland.','Workshops'],
@@ -370,8 +373,7 @@ const CASES=[
     ['Experience direction:','our UI designer at Havas made three UI concepts, then took the chosen one into detail. Together we kept it simple and on brand.','UI concepts']]},
    {id:'out',h:'Outcome',p:['I tested the final prototype on Maze in June 2022, with 218 random testers. The verdict: “Smart CTA is a winner.” The new member page worked well too, and the checkout follows the conventions people already know. That’s what counts. The checkout is where the buying happens, and it had to work on a phone. My job ended where the build began. RSL’s own developers built it from there.']}],
   notes:['Australian Institute of Health and Welfare, Gambling in Australia, using Queensland Government Statistician’s Office, Australian Gambling Statistics (2024): $3.11 billion in net losses on lotteries (lotto, pools and instant scratch tickets) in 2022–23, in 2022–23 dollars.',
-   'Dream Home Art Union (called RSL Art Union until October 2024), “Our history”: “Australia’s largest prize home lottery”.',
-   'RSL Queensland’s site data for 2021, from the project’s business case: over 50% of traffic from mobile, close to 60% with tablets.']},
+   'Dream Home Art Union (called RSL Art Union until October 2024), “Our history”: “Australia’s largest prize home lottery”.']},
  {id:'afp',side:true,logo:'logos/afp.webp',name:'Australian Federal Police',accent:'#B9A7E0',photo:'cards/afp.jpg',photos:[['photos/afp-building.jpg','The Edmund Barton Building, AFP headquarters in Canberra'],['photos/afp-room.jpg','A workshop with the AFP'],['photos/afp-boards.jpg','Workshop boards']],
   short:'A careers site, built to recruit a more diverse force.',who:'Host/Havas · UX Director · 2021',res:'300+ pages down to under 100, WCAG AA',
   title:'Australian Federal Police: a careers site, built to recruit a more diverse force',
@@ -387,7 +389,7 @@ const CASES=[
     ['Content mapping:','templates and content maps first, so every page type had its content before it had a layout.','Content maps'],
     ['Wireframes and testing:','detailed wireframes of the core components and page types, mobile and desktop side by side.','Wireframes'],
     ['Experience direction:','our interface design team made the final designs, other Havas teams wrote the content, and the creative strategy team led the brand. Together we kept it accessible and on brand.','Final designs']]},
-   {id:'out',h:'Outcome',p:['The Treejack test confirmed the information architecture, and the careers hub launched in early March 2021. The AFP’s verdict: “As a result of the comprehensive research undertaken, the AFP have a way forward in the effort to increase diversity in the organisation.” That’s Emma Hardy, Taskforce Horizon, People and Culture Command. That’s the part that counts. The job was never just a website. It was a step toward a more diverse AFP.']}],
+   {id:'out',h:'Outcome',p:['The Treejack test confirmed the information architecture, and the careers hub launched in early March 2021. The AFP’s verdict: “As a result of the comprehensive research undertaken, the AFP have a way forward in the effort to increase diversity in the organisation.” That came from the AFP’s People and Culture Command. That’s the part that counts. The job was never just a website. It was a step toward a more diverse AFP.']}],
   notes:['Australian Federal Police, media release, 7 May 2021: sworn women (police and protective service officers) made up 22% of the AFP, against a new target of 30% by 2028.']},
  {id:'unsw',side:true,logo:'logos/unsw.webp',name:'UNSW',accent:'#F4E35A',photo:'cards/unsw.jpg',photos:[['photos/unsw-nobel.jpg','UNSW, Kensington'],['boards/unsw/workshop-wall.jpg','A workshop with UNSW'],['boards/unsw/workshop-sketch.jpg','Sketching the pages together']],
   short:'Over 250 websites, turned into one.',who:'Re · UX Director · 2020',res:'Tree test: 417 people, 2,787 tasks',
@@ -481,7 +483,7 @@ const icard=(cls,html)=>el('div','card '+cls,html,iworld);
 const ititle=icard('title','<h1>Selected work</h1><p>A few nice projects. Have a look and tell me what you think.</p>');
 const inote=icard('note','<p><a href="https://www.linkedin.com/in/ftorstensson/" target="_blank" rel="noopener" aria-label="Let’s fika: message Fred on LinkedIn">Let’s fika!</a></p>');
 const icards=CASES.map((c,ci)=>{const b=el('article','card'+(c.soon?' soon':''),
- (c.cardPhoto?`<div class="ctop photo"><img src="${c.photo}" alt="" loading="lazy"></div>`:`<div class="ctop" style="background:${c.accent}33">${c.logo?`<img class="clogo" src="${c.logo}" alt="${c.name} logo" style="${logoSize(c,110,280,150)}">`:''}</div>`)+`<div class="cbody"><h2 class="cname">${c.name}</h2><p>${c.soon?'Placeholder. The case study goes here.':c.short+'<br>'+c.who}</p>${c.res?`<p class="res"><b>${c.res}</b></p>`:''}</div>`,iworld);
+ (c.cardPhoto?`<div class="ctop photo"><img src="${c.photo}" alt="" loading="lazy"></div>`:`<div class="ctop" style="background:${c.bg||c.accent+'33'}">${c.logo?`<img class="clogo" src="${c.logo}" alt="${c.name} logo" style="${logoSize(c,110,280,150)}">`:''}</div>`)+`<div class="cbody"><h2 class="cname">${c.name}</h2><p>${c.soon?'Placeholder. The case study goes here.':c.short+'<br>'+c.who}</p>${c.res?`<p class="res"><b>${c.res}</b></p>`:''}</div>`,iworld);
  b.dataset.id=c.id;if(!c.soon){b.tabIndex=0;b.setAttribute('role','link');b.setAttribute('aria-label','Open case: '+c.name);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go2(c.id)}}}return b});
 const place=(e,x,y)=>{e.style.left=x+'px';e.style.top=y+'px'};
 function ilayout(){const ph=phone();document.body.classList.toggle('phone',ph);
@@ -703,7 +705,7 @@ document.querySelector('.bar .play').onclick=()=>toggleRead();
 {const el=tourEl();el.querySelector('.tplay').onclick=()=>{reading.paused?resumeTour():pauseTour()};el.querySelector('.tx').onclick=()=>stopRead();
  el.querySelector('.tsegs').onclick=e=>{const i=[...e.currentTarget.children].indexOf(e.target.closest('i'));if(i>=0&&reading)seekTour(i)}}
 // the case board takes the soft tint behind the card's logo: the accent at 20% over the card's paper
-function caseBg(c){const h=x=>parseInt(x,16),a=c.accent||'#F4F2EA',b='#fbfaf3',m=i=>Math.round(h(a.substr(i,2))*.2+h(b.substr(i,2))*.8);return 'rgb('+m(1)+','+m(3)+','+m(5)+')'}
+function caseBg(c){if(c.bg)return c.bg;const h=x=>parseInt(x,16),a=c.accent||'#F4F2EA',b='#fbfaf3',m=i=>Math.round(h(a.substr(i,2))*.2+h(b.substr(i,2))*.8);return 'rgb('+m(1)+','+m(3)+','+m(5)+')'}
 // post-its: same copy on every case, but each case gets its own colours, angle and a nudge, so the set feels hand-placed
 const NOTE_COLS={yellow:'#F4E35A',green:'#BDE7A6',pink:'#F7BACB',blue:'#AED8F2',orange:'#F8C27A',lilac:'#D3C4F3'};
 const NOTES={fiji:{n:'yellow',s:'green',nr:2.5,sr:-2,nx:0,ny:0,sx:0},
