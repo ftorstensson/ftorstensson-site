@@ -274,6 +274,12 @@ html.deep .index{visibility:hidden}  /* inside a case the name would sit on the 
 /* Selected work: no menu dot (Fred, 15 Nov); the back button, then the name, which opens the menu */
 #dot{display:none!important}#who{left:50px}#menu{left:13px}
 
+
+/* the whole row opens it, the line of text too */
+.acc:not(.flat) .atext{cursor:pointer}
+/* dragging the boards shouldn't select text or cards */
+.vp,.ivp,.index,.world,.iworld{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
 /* page to page: the postcard and Selected work slide sideways, like one long wall (Chrome, Edge, Safari 18.2+; others just switch) */
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.9s;animation-timing-function:cubic-bezier(.65,0,.35,1);animation-fill-mode:both;mix-blend-mode:normal}
@@ -553,7 +559,7 @@ function build(c){
    if(ph)STOPS.push({label:p.label,target:p.ev,pair:pairs.length-1,sub:true});return}
   STOPS.push({label:x.h,target:x.id==='out'&&sec('notes')?[S,sec('notes')]:S,read:ph,sec:S})});
  C_CASE=c;
- if(c.side){if(c.photos)el('div','lphotos',c.photos.map(([src,alt,by],k)=>src==='quote'?`<figure class="qc ld" style="margin-left:${[0,70,20,60][k%4]}px"><blockquote>“${alt}”</blockquote><figcaption>${by}</figcaption></figure>`:`<figure class="pc" style="transform:rotate(${[-2.2,1.6,-1.1,2][k%4]}deg);margin-left:${[0,70,20,60][k%4]}px"><img src="${src}" alt="${alt}" decoding="async"></figure>`).join(''),art);const R=c.sections.find(x=>x.items);const col=el('div','rolecol',`<div class="rnote"><span>See my work</span><svg class="rarrow" viewBox="0 0 60 48" aria-hidden="true"><path d="M29 5 C31 17 31 29 30 40"/><path d="M17 25 C22 30 26 35 30 42 C33 35 37 30 43 24"/></svg></div><h3>${R.h}</h3><p class="rintro">${R.intro}</p>`,art);
+ if(c.side){if(c.photos)el('div','lphotos',c.photos.map(([src,alt,by],k)=>src==='quote'?`<figure class="qc ld" style="margin-left:${[0,70,20,60][k%4]}px"><blockquote>“${alt}”</blockquote><figcaption>${by}</figcaption></figure>`:`<figure class="pc" style="transform:rotate(${[-2.2,1.6,-1.1,2][k%4]}deg);margin-left:${[0,70,20,60][k%4]}px"><img src="${src}" alt="${alt}" decoding="async"></figure>`).join(''),art);const R=c.sections.find(x=>x.items);const col=el('div','rolecol',`<div class="rnote"><span>Click to see the work</span><svg class="rarrow" viewBox="0 0 60 48" aria-hidden="true"><path d="M29 5 C31 17 31 29 30 40"/><path d="M17 25 C22 30 26 35 30 42 C33 35 37 30 43 24"/></svg></div><h3>${R.h}</h3><p class="rintro">${R.intro}</p>`,art);
   // an accordion: each part of the role opens down into a small board of pictures you zoom into
   const WBc=WALLS_BY[c.id];const tiles=R.items.map((r,k)=>{const flat=WBc&&!WBc[k];const it=el('div','acc'+(flat?' flat':''),`<button class="ahead" aria-expanded="false"${flat?' tabindex="-1"':''}><span class="at">${r[0].replace(/[:,]$/,'')}</span>${flat?'':'<span class="chev" aria-hidden="true"></span>'}</button><p class="atext">${r[1]}</p>${flat?'':`<div class="abody"><div class="mini">${miniBoard(k,r[2])}</div></div>`}`,col);it.dataset.k=k;return it});
   const out=STOPS.pop();STOPS.push({label:R.h,target:ph?col:[col,col.querySelector('.rnote')],read:ph,role:true,sec:col});
@@ -652,7 +658,7 @@ vp.addEventListener('pointermove',e=>{const p=pts.get(e.pointerId);if(!p)return;
 const up=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch=null;if(!pts.size)vp.classList.remove('drag');
  if(moved<6&&e.type==='pointerup'&&!pts.size&&downEl){const lk=downEl.closest('a[href]');if(lk){window.open(lk.href,'_blank','noopener');return}
   if(downEl.closest('.listen')){toggleRead();return}
-  const ah=downEl.closest('.ahead');if(ah){const it=ah.parentNode,k=+it.dataset.k,open=!it.classList.contains('open');toggleAcc(k,open);const i=STOPS.findIndex(st=>st.acc===k);if(open&&i>=0)goTo(i);return}const p=pairAt(downEl);if(p)return clickPair(p);
+  const ah=downEl.closest('.ahead')||(downEl.closest('.acc:not(.flat) .atext')?downEl.closest('.acc').querySelector('.ahead'):null);if(ah){const it=ah.parentNode,k=+it.dataset.k,open=!it.classList.contains('open');toggleAcc(k,open);const i=STOPS.findIndex(st=>st.acc===k);if(open&&i>=0)goTo(i);return}const p=pairAt(downEl);if(p)return clickPair(p);
   const sec=downEl.closest('.doc section');if(sec){const i=STOPS.findIndex(st=>st.sec===sec);if(i>=0&&i!==cur)return goTo(i)}}};
 vp.addEventListener('pointerup',up);vp.addEventListener('pointercancel',up);
 vp.addEventListener('wheel',e=>{e.preventDefault();if(e.ctrlKey)zoomAt(Math.exp(-e.deltaY*.01),e.clientX,e.clientY);else{cancelAnimationFrame(anim);tx-=e.deltaX;ty-=e.deltaY;apply()}},{passive:false});
@@ -768,14 +774,14 @@ WALLS_BY.ikea=[
   [['The approach and the page framework',['ikea/page-approach','ikea/page-defs','ikea/page-framework']],['Output recommendations',['ikea/rec-heur','ikea/rec-data']],['Page definitions, scored component by component',['ikea/page-campaign','ikea/page-topcat','ikea/page-room','ikea/page-news']]],
   [['Component guidelines',['ikea/wrap-guidelines','ikea/wrap-components']],['',['ikea/wrap-order','ikea/wrap-longform']],['Content guidelines',['ikea/wrap-content','ikea/wrap-content-recs','ikea/wrap-editorial']]]];
 Object.assign(SZ,{"unsw/mural-concepts": [1600, 759], "unsw/nav-paradigms": [572, 197], "unsw/ia-nav-deck": [1600, 901], "unsw/ia-test": [1600, 900], "unsw/ia-fsr": [1600, 917], "unsw/sitemap": [3308, 2339], "unsw/page-models": [1753, 3400], "unsw/home-1": [1440, 2520], "unsw/home-2": [1440, 2520], "unsw/home-3": [1440, 2520]});
-WALLS_BY.unsw=[[['Workshops with UNSW',['unsw/workshop-wall','unsw/workshop-sketch']],['A working group on Miro: what goes on a profile page',['unsw/cardsort-profile']]],null,
+WALLS_BY.unsw=[[['A working group on Miro: what goes on a profile page',['unsw/cardsort-profile']]],null,
   [['Workshopping the navigation: audience, topic, task',['unsw/nav-paradigms']],['The IA directions, and the Future Students IA after SteerCo',['unsw/ia-nav-deck','unsw/ia-fsr']],['Testing it',['unsw/ia-test']]],
   [['The sitemap',['unsw/sitemap']]],
   [['Page models, from Research to Functions',['unsw/page-models']]],
   [['The homepage concepts board',['unsw/mural-concepts']],['The homepage wireframe, top to bottom',['unsw/home-1','unsw/home-2','unsw/home-3']]]];
 Object.assign(SZ,{"afp/wire-home": [1182, 5000], "afp/wire-officer": [1182, 5000], "afp/wire-job": [1182, 5000], "afp/wire-work": [1182, 5000], "afp/wire-home-m": [612, 5000], "afp/wire-officer-m": [644, 5000], "afp/play-1": [3400, 1779], "afp/play-2": [3400, 2005], "afp/play2": [3400, 2121], "afp/flow-recruit": [1158, 1637], "afp/flow-apply": [1158, 1637], "afp/rec-overview": [1158, 1637], "afp/ia-proposed": [2629, 1858], "afp/ia-current": [2629, 1858], "afp/background": [1928, 1363], "afp/audience": [1928, 1363], "afp/persona-rita": [1928, 1363], "afp/persona-caitlyn": [1928, 1363], "afp/persona-russell": [1928, 1363], "afp/step-ahead": [1928, 1363], "afp/proto": [1928, 1281], "afp/persona-holly": [1928, 908], "afp/content-map": [3400, 3362], "afp/templates-1": [3400, 1682], "afp/templates-2": [3400, 1827], "afp/hub-wires": [3334, 1647], "afp/nav": [3400, 2810], "afp/tone": [1928, 1363], "afp/tone-intelligent": [1928, 1363], "afp/access": [1928, 1363], "afp/story-audience": [1928, 1363], "afp/story-pyramid": [1928, 1363], "afp/story-plain": [1928, 1363]});
 WALLS_BY.afp=[
-  [['The workshop',['afp/workshop']],['The application process, played back to the AFP',['afp/play-1','afp/play-2']],['',['afp/play2']],['Recruitment and application flows',['afp/flow-recruit','afp/flow-apply','afp/rec-overview']]],
+  [['The application process, played back to the AFP',['afp/play-1','afp/play-2']],['',['afp/play2']],['Recruitment and application flows',['afp/flow-recruit','afp/flow-apply','afp/rec-overview']]],
   [['The brief and the audiences',['afp/background','afp/audience']],['The brand, A Step Ahead',['afp/step-ahead']]],
   [['Proto persona',['afp/proto']],['Personas',['afp/persona-rita','afp/persona-caitlyn']],['',['afp/persona-russell','afp/persona-holly']]],
   [['The current career pages, and the proposed IA',['afp/ia-current','afp/ia-proposed']],['Content mapped to the structure',['afp/content-map']]],
@@ -797,7 +803,8 @@ function miniBoard(k,cap){const WB=C_CASE&&WALLS_BY[C_CASE.id];if(WB&&!WB[k])ret
  return `<div class="mwrap" style="height:${y+rowH}px">${h}</div>`}
 function toggleAcc(k,force){const items=C_TILES;let changed=false;
  items.forEach((it,j)=>{const open=j===k?(force!=null?force:!it.classList.contains('open')):false;if(it.classList.contains('open')!==open)changed=true;it.classList.toggle('open',open);it.querySelector('.ahead').setAttribute('aria-expanded',open)});
- if(changed)layout();return items[k]}
+ if(changed){layout();nudge()}return items[k]}
+function nudge(){try{world.style.transform+=' translateZ(0)';requestAnimationFrame(()=>requestAnimationFrame(apply))}catch(e){}}
 const bot=el('div','bot',`<div class="say"></div><svg class="wings" viewBox="0 0 200 90" aria-hidden="true"><path class="wl" d="M96 52 C70 20 34 8 6 14 C26 22 34 30 38 38 C22 38 12 44 6 52 C28 50 44 54 56 62 C70 62 86 60 96 56Z"/><path class="wr" d="M104 52 C130 20 166 8 194 14 C174 22 166 30 162 38 C178 38 188 44 194 52 C172 50 156 54 144 62 C130 62 114 60 104 56Z"/></svg>${FREDBOT}`,document.body);
 let botT=0;
 function botTo(x,y,txt){bot.classList.add('on','flying');bot.style.left=Math.round(x)+'px';bot.style.top=Math.round(y)+'px';
@@ -825,7 +832,7 @@ function firstUrls(c){return [c.logo,...(c.photos||[]).map(x=>x[0]).filter(u=>u!
 function boardUrls(c){const W=WALLS_BY[c.id];if(!W)return [];const out=[];
  W.forEach(rows=>rows&&rows.forEach(([,fs])=>fs.forEach(f=>out.push(f.includes('/')?'boards/'+f+'.jpg':FB+f+((SZ[f]&&SZ[f][0]>2000)||!/^w[12]-|^summary$|^journey$/.test(f)?'.jpg':'.png')))));return out}
 function warmCase(c){firstUrls(c).forEach(preload);boardUrls(c).forEach(preload)}
-document.addEventListener('load',e=>{const t=e.target;if(t&&t.tagName==='IMG'){t.classList.add('ld');const pc=t.closest('.pc');if(pc)pc.classList.add('ld')}},true);
+document.addEventListener('load',e=>{const t=e.target;if(t&&t.tagName==='IMG'){t.classList.add('ld');const pc=t.closest('.pc');if(pc)pc.classList.add('ld');if(t.closest('.acc.open'))nudge()}},true);
 function markLoaded(root){root.querySelectorAll('img').forEach(im=>{if(im.complete&&im.naturalWidth){im.classList.add('ld');const pc=im.closest('.pc');if(pc)pc.classList.add('ld')}})}
 const cardFor=id=>iworld.querySelector(`.card[data-id="${id}"]`);
 function grow(card,open,bg='#E7E7D6'){const r=card.getBoundingClientRect(),z=el('div','zoomer',null,document.body);
