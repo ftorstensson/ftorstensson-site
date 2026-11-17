@@ -42,7 +42,7 @@
     var today = new Date().toDateString(), n = 0;
     try { if (localStorage.getItem('ft-seen') !== today) { localStorage.setItem('ft-seen', today); n = 1; } } catch (e) {}
     try {
-      fetch(API, { method: 'POST', mode: 'cors', keepalive: true, headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ p: p, n: n }) });
+      fetch(API, { method: 'POST', mode: 'cors', keepalive: true, headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ p: p, n: n }) }).catch(function () {});
     } catch (e) {}
   }
   setTimeout(send, 800);           // after routes.js has set the address
