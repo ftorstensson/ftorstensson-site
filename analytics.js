@@ -29,3 +29,22 @@
     track(a.href.indexOf('mailto:') === 0 ? 'email-click' : 'phone-click', { screen: from });
   });
 })();
+
+// Site counter for the Boards hub: one tiny hit per page or screen view to the score service.
+// Sends only the path, plus n=1 the first time this browser shows up today. No cookies, nothing personal.
+(function () {
+  var API = 'https://ftorstensson-scores.fredrik-t-torstensson.workers.dev/hit';
+  var last = '';
+  function send() {
+    var p = location.pathname;
+    if (p === last) return;
+    last = p;
+    var today = new Date().toDateString(), n = 0;
+    try { if (localStorage.getItem('ft-seen') !== today) { localStorage.setItem('ft-seen', today); n = 1; } } catch (e) {}
+    try {
+      fetch(API, { method: 'POST', mode: 'cors', keepalive: true, headers: { 'content-type': 'text/plain' }, body: JSON.stringify({ p: p, n: n }) });
+    } catch (e) {}
+  }
+  setTimeout(send, 800);           // after routes.js has set the address
+  setInterval(send, 1500);         // screens change the address as people move
+})();
